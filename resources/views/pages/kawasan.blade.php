@@ -27,10 +27,9 @@
             </p>
         </div>
 
-        <!-- Grid Kategori Card (Mendukung 4 Kolom ala A, B, C, D) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             @php
-                $colors = ['border-blue-500', 'border-emerald-500', 'border-amber-500', 'border-rose-500', 'border-indigo-500'];
+                $colors = ['border-blue-200'];
             @endphp
             @foreach ($kategoris as $i => $k)
                 @php 
@@ -39,7 +38,6 @@
                 @endphp
                 <a href="{{ route('aset.index', ['kategori' => $k->id]) }}" class="group bg-white rounded-3xl p-6 border border-gray-100 border-l-8 {{ $borderColor }} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
                     <div>
-                        <!-- Inisial Huruf Besar ala Card Wireframe -->
                         <div class="w-12 h-12 rounded-2xl bg-[#14315C] text-white flex items-center justify-center font-extrabold text-lg mb-4 group-hover:bg-[#C89B3C] transition-colors shadow-md">
                             {{ $initial }}
                         </div>

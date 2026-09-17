@@ -24,7 +24,7 @@
         <h2 class="text-2xl font-bold text-[#14315C] mb-4">Kenapa website ini dibuat?</h2>
         <div class="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-4">
             <p>
-                BP Batam sudah memiliki B-Fast sebagai kanal layanan digital untuk transaksi penyewaan aset —
+                BP Batam sudah memiliki B-Fast sebagai kanal layanan digital untuk transaksi penyewaan aset,
                 mulai dari katalog layanan, harga, sampai proses pemesanan. B-Fast dirancang khusus untuk
                 kebutuhan transaksional itu, dan sudah menjalankan perannya dengan baik.
             </p>
@@ -32,12 +32,12 @@
                 Yang belum tersedia adalah gambaran yang lebih menyeluruh: kawasan/aset apa saja yang
                 dimiliki dan dikelola BUPA, di mana lokasinya, apa isinya, serta unit dan pegawai mana yang
                 bertanggung jawab atas pengelolaannya. Informasi semacam ini sebelumnya tersebar dan sulit
-                ditelusuri secara utuh — baik oleh tim internal BUPA sendiri maupun pihak luar yang
+                ditelusuri secara utuh baik oleh tim internal BUPA sendiri maupun pihak luar yang
                 membutuhkannya untuk koordinasi, audit, atau sekadar mencari tahu.
             </p>
             <p>
                 Website ini dibangun sebagai <strong class="text-[#14315C]">pelengkap</strong>, bukan
-                pengganti B-Fast — fokus kami murni pada penyajian informasi organisasi dan aset secara
+                pengganti B-Fast fokus kami murni pada penyajian informasi organisasi dan aset secara
                 terstruktur dan saling terhubung. Setiap halaman aset di sini tetap menautkan pengunjung ke
                 B-Fast begitu mereka butuh cek harga atau melakukan pemesanan.
             </p>
@@ -59,12 +59,7 @@
                 </div>
                 <div><div class="font-semibold text-gray-800 text-sm">~12 kategori</div><div class="text-xs text-gray-500">Wisata, Sport, Agribisnis, Hunian, KPLI3, dan lainnya</div></div>
             </div>
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-lg bg-[#E7F1EE] text-[#2F6F62] flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a4 4 0 10-4-4"></path></svg>
-                </div>
-                <div><div class="font-semibold text-gray-800 text-sm">Struktur berjenjang</div><div class="text-xs text-gray-500">Direktur → Wadir → Manager → Staff</div></div>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -87,7 +82,7 @@
         <div class="bg-white rounded-2xl border border-[#C89B3C]/30 shadow-sm p-6 ring-1 ring-[#C89B3C]/10">
             <div class="flex items-center gap-2 mb-3">
                 <span class="w-2 h-2 rounded-full bg-[#C89B3C]"></span>
-                <h3 class="font-bold text-[#14315C]">BUPA Info (di sini)</h3>
+                <h3 class="font-bold text-[#14315C]">BUPA Info</h3>
             </div>
             <p class="text-sm text-gray-500 mb-4">Menjawab: <em>"Aset ini apa, di mana, dan dikelola siapa?"</em></p>
             <ul class="text-sm text-gray-600 space-y-2">

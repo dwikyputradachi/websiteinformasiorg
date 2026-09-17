@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aset;
+use App\Models\Banner;
 use App\Models\KategoriAset;
 use Illuminate\Http\Request;
 
@@ -11,11 +12,21 @@ class AsetController extends Controller
     public function kategoriIndex()
     {
         $kategoris = KategoriAset::withCount('asetUtama')->orderBy('nama_kategori')->get();
+        
         if (request()->routeIs('kawasan')) {
             return view('pages.kawasan', compact('kategoris'));
         }
 
-        return view('home', compact('kategoris'));
+        $banners = [];
+        if (class_exists(Banner::class)) {
+            try {
+                $banners = Banner::where('is_active', true)->latest()->take(4)->get();
+            } catch (\Exception $e) {
+                // Abaikan error jika tabel belum di-migrate
+            }
+        }
+
+        return view('home', compact('kategoris', 'banners'));
     }
 
     public function index(Request $request, KategoriAset $kategori)

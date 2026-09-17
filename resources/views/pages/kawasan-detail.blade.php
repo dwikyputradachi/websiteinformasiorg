@@ -13,7 +13,6 @@
      }" 
      x-init="setTimeout(() => loading = false, 500)">
     
-    <!-- SKELETON LOADING DENGAN EFEK SHIMMER -->
     <div x-show="loading" class="space-y-6">
         <div class="h-10 w-40 bg-gray-200 rounded-xl animate-pulse"></div>
         <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm animate-pulse space-y-4">
@@ -27,21 +26,18 @@
         </div>
     </div>
 
-    <!-- KONTEN UTAMA SETELAH LOADING -->
     <div x-cloak x-show="!loading" 
          x-transition:enter="transition ease-out duration-500"
          x-transition:enter-start="opacity-0 translate-y-2"
          x-transition:enter-end="opacity-100 translate-y-0"
          class="space-y-8">
         
-        <!-- Tombol Kembali -->
         <div>
             <a href="{{ $aset->kategori_id ? route('aset.index', $aset->kategori_id) : route('kawasan') }}" class="inline-flex items-center gap-2 text-xs font-semibold text-gray-500 hover:text-[#14315C] bg-white px-4 py-2.5 rounded-xl border border-gray-200 shadow-sm transition-all hover:bg-gray-50">
                 &larr; Kembali ke Daftar Aset
             </a>
         </div>
 
-        <!-- HEADER DETAIL ASET -->
         <div class="bg-white rounded-3xl p-8 sm:p-10 border border-gray-100 shadow-sm relative overflow-hidden">
             <div class="absolute top-0 left-0 w-2.5 h-full bg-[#14315C]"></div>
             
@@ -72,9 +68,7 @@
                 {{ $aset->deskripsi ?? 'Informasi terperinci mengenai fasilitas, titik lokasi geografis, serta penanggung jawab operasional di kawasan ini.' }}
             </p>
 
-            <!-- KOTAK INFO ALAMAT & PENGELOLA -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/60 text-xs sm:text-sm">
-                <!-- Alamat -->
                 <div class="flex items-start gap-3.5">
                     <div class="p-2.5 bg-white rounded-xl shadow-sm text-amber-500 mt-0.5 border border-amber-100">📍</div>
                     <div>
@@ -83,7 +77,6 @@
                     </div>
                 </div>
 
-                <!-- Pengelola Ganda (Internal BUPA & Eksternal/Supervisor) -->
                 <div class="flex items-start gap-3.5">
                     <div class="p-2.5 bg-white rounded-xl shadow-sm text-[#14315C] mt-0.5 border border-blue-100">👥</div>
                     <div>
@@ -105,10 +98,8 @@
             </div>
         </div>
 
-        <!-- GRID MAPS & GALERI FOTO -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <!-- Kolom Kiri: Peta GIS Dinamis dari DB -->
             <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm flex flex-col h-80 lg:h-auto overflow-hidden">
                 <div class="text-xs font-bold text-[#14315C] mb-3 px-1 flex items-center justify-between">
                     <span>🗺️ Titik Lokasi Peta (GIS)</span>
@@ -122,7 +113,6 @@
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Galeri Foto Estetik -->
             <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col justify-between">
                 <div class="text-xs font-bold text-[#14315C] mb-4 flex items-center justify-between">
                     <span>📸 Dokumentasi & Galeri Kawasan</span>
@@ -147,7 +137,6 @@
 
         </div>
 
-        <!-- DAFTAR FASILITAS / AMENITAS DENGAN LIVE FILTER (TANPA STATUS) -->
         <div class="space-y-6 pt-4" x-data="{ 
             fasilitasData: [
                 @foreach($aset->fasilitas as $f)
@@ -161,7 +150,6 @@
                     <p class="text-xs text-gray-500 mt-1">Fasilitas pendukung di area {{ $aset->nama }}.</p>
                 </div>
                 
-                <!-- Live Search Filter Input -->
                 <div class="relative w-full sm:w-80">
                     <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -170,12 +158,10 @@
                 </div>
             </div>
 
-            <!-- List Card Fasilitas Memanjang ke Bawah (Responsif & Filterable) -->
             <div class="space-y-4">
                 <template x-for="f in filteredFasilitas" :key="f.nama">
                     <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row items-center gap-6">
                         
-                        <!-- Gambar / Thumbnail Fasilitas -->
                         <div class="w-full sm:w-36 h-28 rounded-2xl bg-gray-100 overflow-hidden flex-shrink-0 flex items-center justify-center text-gray-400 text-xs font-bold border border-gray-100">
                             <template x-if="f.foto">
                                 <img :src="f.foto" :alt="f.nama" class="w-full h-full object-cover">
@@ -185,7 +171,6 @@
                             </template>
                         </div>
 
-                        <!-- Informasi Detail Fasilitas (Nama & Deskripsi Saja) -->
                         <div class="flex-grow text-center sm:text-left">
                             <h4 class="font-extrabold text-[#14315C] text-lg mb-1" x-text="f.nama"></h4>
                             <p class="text-xs text-gray-500 leading-relaxed max-w-2xl" x-text="f.deskripsi"></p>
@@ -193,14 +178,12 @@
                     </div>
                 </template>
 
-                <!-- State Kosong Jika Pencarian Tidak Ketemu -->
                 <div x-show="filteredFasilitas.length === 0" class="bg-white rounded-3xl p-12 text-center border border-gray-100 text-gray-400 text-sm shadow-sm">
                     <div class="text-3xl mb-2">🔍</div>
                     <p class="font-medium text-gray-600">Pencarian fasilitas tidak ditemukan.</p>
                     <p class="text-xs text-gray-400 mt-1">Coba kata kunci nama fasilitas yang lain.</p>
                 </div>
 
-                <!-- Fallback jika database kosong -->
                 @if($aset->fasilitas->isEmpty())
                     <div class="bg-white rounded-3xl p-12 text-center border border-gray-100 text-gray-400 text-sm shadow-sm">
                         <div class="text-3xl mb-2">📂</div>
