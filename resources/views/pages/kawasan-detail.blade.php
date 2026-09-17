@@ -70,7 +70,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/60 text-xs sm:text-sm">
                 <div class="flex items-start gap-3.5">
-                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-amber-500 mt-0.5 border border-amber-100">📍</div>
+                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-amber-500 mt-0.5 border border-amber-100"></div>
                     <div>
                         <div class="font-bold text-[#14315C]">Alamat Lokasi</div>
                         <div class="text-gray-600 mt-0.5 leading-relaxed">{{ $aset->alamat_lokasi ?? 'Alamat wilayah BP Batam' }}</div>
@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="flex items-start gap-3.5">
-                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-[#14315C] mt-0.5 border border-blue-100">👥</div>
+                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-[#14315C] mt-0.5 border border-blue-100"></div>
                     <div>
                         <div class="font-bold text-[#14315C]">Unit / Personil Pengelola</div>
                         <div class="space-y-1.5 mt-1.5">
@@ -102,21 +102,26 @@
             
             <div class="bg-white rounded-3xl p-5 border border-gray-100 shadow-sm flex flex-col h-80 lg:h-auto overflow-hidden">
                 <div class="text-xs font-bold text-[#14315C] mb-3 px-1 flex items-center justify-between">
-                    <span>🗺️ Titik Lokasi Peta (GIS)</span>
+                    <span> Titik Lokasi Peta (GIS)</span>
                     <span class="text-[10px] text-gray-400">Google Maps</span>
                 </div>
                 <div class="flex-grow rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 relative min-h-[250px]">
                     @php
-                        $mapQuery = urlencode($aset->alamat_lokasi ?? $aset->nama);
+                        $lokasiPeta = $aset->koordinat_gis ?: ($aset->alamat_lokasi ?? $aset->nama);
+                        
+                        if(str_contains($lokasiPeta, 'share.google') || str_contains($lokasiPeta, 'goo.gl/maps')) {
+                            $lokasiPeta = $aset->nama . ' ' . $aset->alamat_lokasi;
+                        }
+
+                        $mapQuery = urlencode($lokasiPeta);
                     @endphp
-                    <iframe width="100%" height="100%" frameborder="0" style="border:0;" src="https://maps.google.com/maps?q={{ $mapQuery }}&t=&z=14&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
+                    <iframe width="100%" height="100%" frameborder="0" style="border:0;" src="https://maps.google.com/maps?q={{ $mapQuery }}&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
                 </div>
             </div>
 
             <div class="lg:col-span-2 bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col justify-between">
                 <div class="text-xs font-bold text-[#14315C] mb-4 flex items-center justify-between">
-                    <span>📸 Dokumentasi & Galeri Kawasan</span>
-                    <span class="text-[10px] text-gray-400">Visual Resmi BUPA</span>
+                    <span>Dokumentasi & Galeri Kawasan</span>
                 </div>
 
                 <div class="grid grid-cols-3 gap-3 h-64 sm:h-72">
