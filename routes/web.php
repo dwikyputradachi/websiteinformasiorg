@@ -11,6 +11,8 @@ use App\Http\Controllers\AsetController;
 use App\Http\Controllers\PegawaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Admin\BannerController; // Jangan lupa import controller ini di bagian atas
+
 
 Route::get('/', [AsetController::class, 'kategoriIndex'])->name('home');
 Route::get('/cari', [SearchController::class, 'cari'])->name('cari');
@@ -38,4 +40,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('asets', AdminAsetController::class)->except(['show', 'create']);
     Route::resource('fasilitas', FasilitasController::class)->except(['show', 'create']);
     Route::resource('pengelola', PengelolaController::class)->except(['show', 'create', 'edit', 'update']); // Pengelola biasanya cukup tambah/hapus pivot
+    Route::resource('banners', BannerController::class)->parameters(['banners' => 'banner']);
+    Route::patch('banners/{banner}/toggle', [BannerController::class, 'toggle'])->name('banners.toggle');
+    Route::resource('banners', BannerController::class)->parameters(['banners' => 'banner']);
 });

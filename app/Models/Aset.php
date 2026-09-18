@@ -19,6 +19,7 @@ class Aset extends Model
         'latitude',
         'longitude',
         'status_operasional',
+        'foto',
         'jam_operasional', // <-- Tambahkan ini
         'kontak_cs',       // <-- Tambahkan ini
         'is_outdoor',      // <-- Tambahkan ini
@@ -59,5 +60,9 @@ class Aset extends Model
     public function isOutdoor(): bool
     {
         return (bool) $this->is_outdoor;
+    }
+    public function fotos()
+    {
+        return $this->hasMany(AsetFoto::class, 'aset_id');
     }
 }

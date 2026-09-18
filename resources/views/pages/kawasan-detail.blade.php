@@ -6,6 +6,7 @@
      x-data="{ 
         loading: true, 
         searchQuery: '',
+        showGalleryModal: false,
         get filteredFasilitas() {
             if (!this.searchQuery) return this.fasilitasData;
             return this.fasilitasData.filter(f => f.nama.toLowerCase().includes(this.searchQuery.toLowerCase()));
@@ -103,7 +104,7 @@
             </div>
         @endif
 
-        <!-- 3. MAP + GAMBAR DI ATAS (Simetris & Sejajar) -->
+        <!-- 3. MAP + GALERI FOTO (Dinamis dari Database) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
             <!-- Peta GIS (Lebar 5) -->
@@ -128,31 +129,98 @@
                 </div>
             </div>
 
-            <!-- Galeri Foto / Banner Utama (Lebar 7) -->
+            <!-- Galeri Foto & Dokumentasi (Lebar 7 - Dinamis) -->
+            @php
+                $fotoUtama = $aset->foto ? asset('storage/' . $aset->foto) : null;
+                // Ambil hingga 3 foto dokumentasi secara acak untuk tampilan depan
+                $galeriAcak = $aset->fotos()->inRandomOrder()->take(2)->get();
+                $totalGaleri = $aset->fotos()->count();
+            @endphp
             <div class="lg:col-span-7 bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col justify-between">
                 <div class="text-xs font-extrabold text-[#14315C] mb-4 flex items-center justify-between uppercase tracking-wider">
                     <span>Dokumentasi & Galeri Kawasan</span>
+                    @if($totalGaleri > 0)
+                        <button @click="showGalleryModal = true" class="text-[11px] font-bold text-[#C89B3C] hover:underline normal-case">
+                            Lihat Semua Foto ({{ $totalGaleri }}) &rarr;
+                        </button>
+                    @endif
                 </div>
 
                 <div class="grid grid-cols-3 gap-3 h-72 sm:h-80">
+                    <!-- Foto Utama -->
                     <div class="col-span-2 rounded-2xl bg-gradient-to-br from-[#14315C] to-blue-800 overflow-hidden shadow-inner relative flex items-center justify-center text-white font-extrabold text-sm tracking-wide">
-                        <div class="absolute inset-0 bg-black/20"></div>
-                        <span class="relative z-10">{{ $aset->nama }} - Utama</span>
+                        @if($fotoUtama)
+                            <img src="{{ $fotoUtama }}" alt="{{ $aset->nama }}" class="w-full h-full object-cover">
+                        @else
+                            <div class="absolute inset-0 bg-black/20"></div>
+                            <span class="relative z-10 text-center px-4">{{ $aset->nama }} - Utama</span>
+                        @endif
                     </div>
+
+                    <!-- Sudut Dokumentasi Acak (Maksimal 2 slot samping) -->
                     <div class="flex flex-col gap-3 h-full">
-                        <div class="h-1/2 rounded-2xl bg-gray-50 overflow-hidden shadow-2xs flex items-center justify-center text-gray-400 text-xs font-bold border border-gray-200/60">
-                            Sudut 1
-                        </div>
-                        <div class="h-1/2 rounded-2xl bg-gray-50 overflow-hidden shadow-2xs flex items-center justify-center text-gray-400 text-xs font-bold border border-gray-200/60">
-                            Sudut 2
-                        </div>
+                        @if($galeriAcak->count() > 0)
+                            @foreach($galeriAcak as $idx => $gFoto)
+                                <div class="h-1/2 rounded-2xl bg-gray-50 overflow-hidden shadow-2xs flex items-center justify-center border border-gray-200/60 relative">
+                                    <img src="{{ asset('storage/' . $gFoto->foto) }}" alt="Dokumentasi" class="w-full h-full object-cover">
+                                    @if($idx === 1 && $totalGaleri > 2)
+                                        <div @click="showGalleryModal = true" class="absolute inset-0 bg-black/50 backdrop-blur-2xs flex items-center justify-center text-white text-xs font-extrabold cursor-pointer hover:bg-black/60 transition-colors">
+                                            +{{ $totalGaleri - 2 }} Foto
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                            <!-- Jika foto dokumentasi kurang dari 2, isi placeholder kosong yang rapi -->
+                            @if($galeriAcak->count() == 1)
+                                <div class="h-1/2 rounded-2xl bg-gray-50 overflow-hidden shadow-2xs flex items-center justify-center text-gray-400 text-xs font-bold border border-gray-200/60">
+                                    Arsip BUPA
+                                </div>
+                            @endif
+                        @else
+                            <div class="h-1/2 rounded-2xl bg-gray-50 overflow-hidden shadow-2xs flex items-center justify-center text-gray-400 text-xs font-bold border border-gray-200/60">
+                                Sudut 1
+                            </div>
+                            <div class="h-1/2 rounded-2xl bg-gray-50 overflow-hidden shadow-2xs flex items-center justify-center text-gray-400 text-xs font-bold border border-gray-200/60">
+                                Sudut 2
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <!-- 4. DESKRIPSI KAWASAN (Panjang / Lebar Penuh Sendiri di Bawah Gambar) -->
+        <!-- MODAL POPUP LIHAT SEMUA FOTO -->
+        <div x-cloak x-show="showGalleryModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+            <div @click.away="showGalleryModal = false" class="bg-white rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl">
+                <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+                    <div>
+                        <h3 class="text-lg font-extrabold text-[#14315C]">Galeri Dokumentasi Lengkap</h3>
+                        <p class="text-xs text-gray-500 font-medium">Semua arsip foto dokumentasi untuk {{ $aset->nama }}</p>
+                    </div>
+                    <button @click="showGalleryModal = false" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center font-bold transition-colors">
+                        &times;
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @if($fotoUtama)
+                        <div class="rounded-2xl overflow-hidden h-48 border border-gray-200/60 relative group">
+                            <img src="{{ $fotoUtama }}" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-3 text-white text-[11px] font-bold">Foto Utama Aset</div>
+                        </div>
+                    @endif
+                    @foreach($aset->fotos as $allFoto)
+                        <div class="rounded-2xl overflow-hidden h-48 border border-gray-200/60 relative group">
+                            <img src="{{ asset('storage/' . $allFoto->foto) }}" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-3 text-white text-[11px] font-bold">Dokumentasi Lapangan</div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. DESKRIPSI KAWASAN -->
         <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 space-y-3">
             <h3 class="text-xs font-extrabold text-[#14315C] uppercase tracking-wider">Deskripsi Kawasan</h3>
             <p class="text-gray-600 text-xs sm:text-sm leading-relaxed font-medium">
@@ -160,10 +228,10 @@
             </p>
         </div>
 
-        <!-- 5. BAGIAN BAWAH (Dibagi 2 Kolom: Kiri Jam Operasional, Kanan Kontak & Pengelola) -->
+        <!-- 5. BAGIAN BAWAH (Jam Operasional & Pengelola) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- KOLOM KIRI: Jam Operasional (Lebar 6) -->
+            <!-- KOLOM KIRI: Jam Operasional -->
             <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md shadow-gray-200/50 space-y-4">
                 <h3 class="text-xs font-extrabold text-[#14315C] uppercase tracking-wider">Jam Operasional</h3>
                 <div class="bg-slate-50/80 p-4 rounded-2xl border border-gray-200/60 space-y-2 text-xs">
@@ -188,7 +256,7 @@
                 </div>
             </div>
 
-            <!-- KOLOM KANAN: Kontak & Unit Personil Pengelola (Lebar 6) -->
+            <!-- KOLOM KANAN: Kontak & Pengelola -->
             <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md shadow-gray-200/50 space-y-4">
                 <h3 class="text-xs font-extrabold text-[#14315C] uppercase tracking-wider">Kontak & Personil Pengelola</h3>
                 
