@@ -8,8 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Satu aset bisa punya banyak pengelola, masing-masing dalam kapasitas/bagian berbeda.
-        // Contoh: Guest House dikelola Pak Nando (bagian Keuangan) DAN Pak Marwan (bagian Program) sekaligus.
         Schema::create('aset_pengelola', function (Blueprint $table) {
             $table->id();
             $table->foreignId('aset_id')->constrained('asets')->cascadeOnDelete();

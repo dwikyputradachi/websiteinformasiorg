@@ -50,7 +50,6 @@ class PegawaiController extends Controller
     {
         $jabatans = Jabatan::orderBy('priority')->get();
         $bagians = Bagian::orderBy('nama_bagian')->get();
-        // Mencegah pegawai memilih dirinya sendiri sebagai atasan
         $calonAtasan = Pegawai::where('id', '!=', $pegawai->id)->orderBy('nama')->get();
 
         return view('admin.pegawais.edit', compact('pegawai', 'jabatans', 'bagians', 'calonAtasan'));
@@ -69,7 +68,6 @@ class PegawaiController extends Controller
             'bagian_ids.*' => 'exists:bagians,id',
         ]);
 
-        // Jika mengunggah foto baru
         if ($request->hasFile('foto')) {
             if ($pegawai->foto && Storage::disk('public')->exists($pegawai->foto)) {
                 Storage::disk('public')->delete($pegawai->foto);

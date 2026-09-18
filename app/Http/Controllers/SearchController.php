@@ -16,7 +16,6 @@ class SearchController extends Controller
             return redirect()->back();
         }
 
-        // Cari Aset berdasarkan nama, alamat, deskripsi, atau kategori
         $asets = Aset::with('kategori')
             ->where(function ($query) use ($q) {
                 $query->where('nama', 'like', "%{$q}%")
@@ -28,7 +27,6 @@ class SearchController extends Controller
             })
             ->get();
 
-        // Cari Pegawai berdasarkan nama atau jabatan
         $pegawais = Pegawai::with('jabatan')
             ->where(function ($query) use ($q) {
                 $query->where('nama', 'like', "%{$q}%")
@@ -38,7 +36,6 @@ class SearchController extends Controller
             })
             ->get();
 
-        // Kirim $asets dan $pegawais ke view pencarian
         return view('pages.pencarian', compact('asets', 'pegawais', 'q'));
     }
 }

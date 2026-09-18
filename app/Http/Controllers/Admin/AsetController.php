@@ -34,15 +34,12 @@ class AsetController extends Controller
             'galeri.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // 1. TANGKAP FOTO UTAMA SEBELUM CREATE
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('asets', 'public');
         }
 
-        // 2. SIMPAN KE DATABASE
         $aset = Aset::create($data);
 
-        // 3. TANGKAP GALERI FOTO (Jika ada)
         if ($request->hasFile('galeri')) {
             $files = array_slice($request->file('galeri'), 0, 5); // Ambil maks 5
             foreach ($files as $file) {
@@ -62,12 +59,10 @@ class AsetController extends Controller
             return back()->withErrors('Aset masih memiliki sub-unit atau fasilitas. Hapus/pindahkan dahulu.');
         }
 
-        // Hapus file foto utama fisik jika ada
         if ($aset->foto && Storage::disk('public')->exists($aset->foto)) {
             Storage::disk('public')->delete($aset->foto);
         }
 
-        // Hapus file foto galeri fisik & record relasinya
         foreach ($aset->fotos as $fotoGaleri) {
             if (Storage::disk('public')->exists($fotoGaleri->foto)) {
                 Storage::disk('public')->delete($fotoGaleri->foto);
@@ -101,9 +96,7 @@ class AsetController extends Controller
             'galeri.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Jika ada unggahan foto utama baru
         if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
             if ($aset->foto && Storage::disk('public')->exists($aset->foto)) {
                 Storage::disk('public')->delete($aset->foto);
             }
@@ -112,7 +105,6 @@ class AsetController extends Controller
 
         $aset->update($data);
 
-        // Tambahan galeri baru jika diunggah (maksimal total 5 atau tambah batch baru)
         if ($request->hasFile('galeri')) {
             $files = array_slice($request->file('galeri'), 0, 5);
             foreach ($files as $file) {

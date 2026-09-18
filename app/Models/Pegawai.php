@@ -21,9 +21,6 @@ class Pegawai extends Model
         return $this->belongsTo(Pegawai::class, 'atasan_id');
     }
 
-    // Dipakai untuk render org chart secara rekursif (lazy per-node, dipanggil dari Blade).
-    // Dua orang dengan atasan_id sama otomatis jadi dua cabang terpisah di chart -
-    // priority di tabel jabatan cuma dipakai untuk urutan/label, bukan penentu percabangan.
     public function bawahan(): HasMany
     {
         return $this->hasMany(Pegawai::class, 'atasan_id')->with('jabatan')->orderBy('nama');
@@ -34,7 +31,6 @@ class Pegawai extends Model
         return $this->belongsToMany(Bagian::class, 'pegawai_bagian');
     }
 
-    // Aset yang dikelola pegawai ini, beserta bagian/kapasitas & keterangan dari pivot aset_pengelola.
     public function asetDikelola(): BelongsToMany
     {
         return $this->belongsToMany(Aset::class, 'aset_pengelola')

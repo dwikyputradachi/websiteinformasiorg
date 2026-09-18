@@ -24,37 +24,31 @@ class BupaSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // Jabatan berjenjang + priority
         $jDirektur = Jabatan::create(['nama_jabatan' => 'Direktur', 'priority' => 1]);
         $jWadir = Jabatan::create(['nama_jabatan' => 'Wakil Direktur', 'priority' => 2]);
         $jManager = Jabatan::create(['nama_jabatan' => 'Manager', 'priority' => 3]);
         $jAsmen = Jabatan::create(['nama_jabatan' => 'Asisten Manager', 'priority' => 4]);
         $jStaff = Jabatan::create(['nama_jabatan' => 'Staff', 'priority' => 5]);
 
-        // Bagian (dipegang lintas jabatan)
         $bOperasional = Bagian::create(['nama_bagian' => 'Operasional']);
         $bKeuangan = Bagian::create(['nama_bagian' => 'Keuangan']);
         $bEvaluasi = Bagian::create(['nama_bagian' => 'Evaluasi']);
         $bProgram = Bagian::create(['nama_bagian' => 'Program']);
 
-        // Direktur
         $direktur = Pegawai::create(['nama' => 'Bagas Prasetyo', 'kontak' => 'bagas.p@bpbatam.go.id', 'asal' => 'BUPA', 'jabatan_id' => $jDirektur->id]);
 
-        // 2 Wakil Direktur, masing-masing pegang beberapa bagian
         $buWadir = Pegawai::create(['nama' => 'Siti Rahma', 'kontak' => 'siti.r@bpbatam.go.id', 'asal' => 'BUPA', 'jabatan_id' => $jWadir->id, 'atasan_id' => $direktur->id]);
         $buWadir->bagian()->attach([$bOperasional->id, $bKeuangan->id, $bEvaluasi->id]);
 
         $pakWadir = Pegawai::create(['nama' => 'Herman Yusuf', 'kontak' => 'herman.y@bpbatam.go.id', 'asal' => 'BUPA', 'jabatan_id' => $jWadir->id, 'atasan_id' => $direktur->id]);
         $pakWadir->bagian()->attach([$bProgram->id, $bEvaluasi->id]);
 
-        // Manager di bawah Bu Wadir, tiap manager bisa pegang lebih dari satu bagian
         $pakA = Pegawai::create(['nama' => 'Andi Wijaya', 'kontak' => 'andi.w@bpbatam.go.id', 'asal' => 'BUPA', 'jabatan_id' => $jManager->id, 'atasan_id' => $buWadir->id]);
         $pakA->bagian()->attach([$bOperasional->id, $bKeuangan->id]);
 
         $pakToto = Pegawai::create(['nama' => 'Toto Sugiarto', 'kontak' => 'toto.s@bpbatam.go.id', 'asal' => 'BUPA', 'jabatan_id' => $jManager->id, 'atasan_id' => $buWadir->id]);
         $pakToto->bagian()->attach([$bEvaluasi->id]);
 
-        // Asisten manager + staff di bawah Pak Toto
         $pakNando = Pegawai::create(['nama' => 'Nando Saputra', 'kontak' => 'nando.s@bpbatam.go.id', 'asal' => 'BUPA', 'jabatan_id' => $jAsmen->id, 'atasan_id' => $pakToto->id]);
         $pakNando->bagian()->attach([$bKeuangan->id, $bProgram->id]);
 
@@ -64,14 +58,12 @@ class BupaSeeder extends Seeder
         Pegawai::create(['nama' => 'Dewi Lestari', 'kontak' => 'dewi.l@bpbatam.go.id', 'asal' => 'BUPA', 'jabatan_id' => $jStaff->id, 'atasan_id' => $pakNando->id]);
         Pegawai::create(['nama' => 'Rudi Hartono', 'kontak' => 'rudi.h@bpbatam.go.id', 'asal' => 'BUPA', 'jabatan_id' => $jStaff->id, 'atasan_id' => $pakA->id]);
 
-        // Kategori aset
         $kWisata = KategoriAset::create(['nama_kategori' => 'Wisata']);
         KategoriAset::create(['nama_kategori' => 'Sport']);
         KategoriAset::create(['nama_kategori' => 'Agribisnis']);
         $kHunian = KategoriAset::create(['nama_kategori' => 'Hunian']);
         KategoriAset::create(['nama_kategori' => 'KPLI3']);
 
-        // Aset kategori Wisata (Sekupang)
         $rusa = Aset::create([
             'nama' => 'Taman Rusa Sekupang', 'deskripsi' => 'Kawasan konservasi rusa terbuka untuk kunjungan publik',
             'alamat_lokasi' => 'Sekupang, Batam', 'status_operasional' => 'Aktif', 'kategori_id' => $kWisata->id,
@@ -83,7 +75,6 @@ class BupaSeeder extends Seeder
         Fasilitas::create(['nama' => 'Wortel Pakan Kelinci', 'deskripsi' => 'Paket wortel untuk memberi makan rusa', 'aset_id' => $rusa->id]);
         Fasilitas::create(['nama' => 'Gazebo', 'deskripsi' => 'Tempat istirahat pengunjung', 'aset_id' => $rusa->id]);
 
-        // Aset kategori Hunian (Guest House - contoh multi-pengelola)
         $guestHouse = Aset::create([
             'nama' => 'Guest House Batam', 'deskripsi' => 'Penginapan dekat RSBP Batam',
             'alamat_lokasi' => 'Batam Center', 'status_operasional' => 'Aktif', 'kategori_id' => $kHunian->id,

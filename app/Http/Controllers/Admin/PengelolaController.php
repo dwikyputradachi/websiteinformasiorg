@@ -13,8 +13,6 @@ use Illuminate\Http\Request;
 
 class PengelolaController extends Controller
 {
-    // Menugaskan pegawai (BUPA atau eksternal) sebagai pengelola sebuah aset,
-    // dalam kapasitas bagian tertentu. Satu aset bisa punya banyak baris pengelola sekaligus.
     public function index()
     {
         $pengelola = AsetPengelola::with(['aset', 'pegawai', 'bagian'])->latest()->get();
