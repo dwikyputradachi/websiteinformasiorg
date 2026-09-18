@@ -10,22 +10,15 @@ use App\Http\Controllers\Admin\PengelolaController;
 use App\Http\Controllers\AsetController;
 use App\Http\Controllers\PegawaiController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SearchController;
 
 Route::get('/', [AsetController::class, 'kategoriIndex'])->name('home');
-
+Route::get('/cari', [SearchController::class, 'cari'])->name('cari');
 Route::get('/kawasan-aset', [AsetController::class, 'kategoriIndex'])->name('kawasan');
-
 Route::get('/kategori/{kategori}', [AsetController::class, 'index'])->name('aset.index');
-
 Route::get('/aset/{aset}', [AsetController::class, 'show'])->name('aset.show');
-
 Route::get('/struktur-organisasi', [PegawaiController::class, 'struktur'])->name('struktur');
-
 Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
-
-Route::get('/cari', [PegawaiController::class, 'search'])->name('cari');
-
 Route::view('/tentang-kami', 'pages.tentang-kami')->name('tentang');
 
 Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))

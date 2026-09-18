@@ -10,8 +10,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Aset extends Model
 {
     protected $fillable = [
-        'nama', 'deskripsi', 'alamat_lokasi', 'koordinat_gis', 'latitude', 'longitude', 'status_operasional',
-        'kategori_id', 'parent_id', 'link_bfast',
+        'kategori_id',
+        'parent_id',
+        'nama',
+        'deskripsi',
+        'alamat_lokasi',
+        'koordinat_gis',
+        'latitude',
+        'longitude',
+        'status_operasional',
+        'jam_operasional', // <-- Tambahkan ini
+        'kontak_cs',       // <-- Tambahkan ini
+        'is_outdoor',      // <-- Tambahkan ini
+        'link_bfast',
     ];
 
     public function kategori(): BelongsTo
@@ -47,8 +58,6 @@ class Aset extends Model
     // apakah perlu panggil WeatherService atau tidak.
     public function isOutdoor(): bool
     {
-        $kategoriOutdoor = ['Wisata', 'Sport', 'Agribisnis'];
-
-        return $this->kategori && in_array($this->kategori->nama_kategori, $kategoriOutdoor, true);
+        return (bool) $this->is_outdoor;
     }
 }
