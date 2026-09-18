@@ -3,6 +3,7 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
     <nav class="flex text-sm text-gray-500 mb-8" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-2 rounded-lg bg-white px-4 py-2 shadow-sm border border-gray-100">
             <li class="inline-flex items-center">

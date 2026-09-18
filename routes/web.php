@@ -10,21 +10,26 @@ use App\Http\Controllers\Admin\PengelolaController;
 use App\Http\Controllers\AsetController;
 use App\Http\Controllers\PegawaiController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Admin\BannerController; // Jangan lupa import controller ini di bagian atas
+
 
 Route::get('/', [AsetController::class, 'kategoriIndex'])->name('home');
-Route::get('/cari', [PegawaiController::class, 'search'])->name('cari');
-
-Route::get('/struktur-organisasi', [PegawaiController::class, 'struktur'])->name('struktur');
-Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
-
+Route::get('/cari', [SearchController::class, 'cari'])->name('cari');
+Route::get('/kawasan-aset', [AsetController::class, 'kategoriIndex'])->name('kawasan');
 Route::get('/kategori/{kategori}', [AsetController::class, 'index'])->name('aset.index');
 Route::get('/aset/{aset}', [AsetController::class, 'show'])->name('aset.show');
+Route::get('/struktur-organisasi', [PegawaiController::class, 'struktur'])->name('struktur');
+Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
+Route::view('/tentang-kami', 'pages.tentang-kami')->name('tentang');
+
 Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))
     ->middleware('auth')
     ->name('dashboard');
+
 require __DIR__ . '/auth.php';
 
-// admin
+// Admin rute ni
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', fn () => redirect()->route('admin.pegawais.index'))->name('dashboard');
 
@@ -35,4 +40,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('asets', AdminAsetController::class)->except(['show', 'create']);
     Route::resource('fasilitas', FasilitasController::class)->except(['show', 'create']);
     Route::resource('pengelola', PengelolaController::class)->except(['show', 'create', 'edit', 'update']); // Pengelola biasanya cukup tambah/hapus pivot
+    Route::resource('banners', BannerController::class)->parameters(['banners' => 'banner']);
+    Route::patch('banners/{banner}/toggle', [BannerController::class, 'toggle'])->name('banners.toggle');
+    Route::resource('banners', BannerController::class)->parameters(['banners' => 'banner']);
 });

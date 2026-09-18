@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>@yield('title', 'Informasi BUPA') · BP Batam</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <style>
         .oc-scroll { overflow-x: auto; padding: 10px 0 24px; }
         .orgchart, .orgchart ul { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; }
@@ -26,50 +26,61 @@
 </head>
 <body class="bg-gray-50/30 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- NAVBAR PUBLIK (Murni untuk Visitor/Pengguna) -->
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <div class="flex-shrink-0 flex items-center">
-                        <span class="text-2xl font-bold text-[#14315C]">BUPA<span class="text-[#C89B3C]">Info</span></span>
-                    </div>
-                    <!-- Menu Utama Pengunjung -->
-                    <div class="hidden sm:ml-10 sm:flex sm:space-x-8">
-                        <a href="{{ route('home') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('home') ? 'border-[#C89B3C] text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium transition-colors">
-                            Beranda
-                        </a>
-                        <a href="{{ route('struktur') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('struktur', 'pegawai.show') ? 'border-[#C89B3C] text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium transition-colors">
-                            Struktur Organisasi
-                        </a>
-                        <a href="{{ route('home') }}#kategori-aset" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->is('kategori*') || request()->routeIs('aset.*') ? 'border-[#C89B3C] text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium transition-colors">
-                            Kawasan/Aset
-                        </a>
-                        <a href="#" class="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 text-sm font-medium transition-colors">
-                            Tentang Kami
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Sisi Kanan Kosong / Bersih dari Tombol Admin -->
-                <div class="flex items-center">
-                    <!-- Tidak ada tombol login/admin di sini agar visitor tidak tahu/tidak terganggu -->
-                </div>
-            </div>
-        </div>
-    </nav>
+    @include('partials.navbar')
 
-    <!-- KONTEN UTAMA PUBLIK -->
     <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         @yield('content')
     </main>
 
-    <!-- FOOTER -->
+    <!-- FOOTER MINIMALIS & RINGAN -->
     <footer class="bg-white border-t border-gray-100 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <p class="text-center text-sm text-gray-500">
-                &copy; {{ date('Y') }} Badan Usaha Pemanfaatan Aset (BUPA) - BP Batam.
-            </p>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-gray-100/80">
+                
+                <!-- Kolom 1: Profil Singkat -->
+                <div class="md:col-span-5 space-y-2.5">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-[#14315C] text-white flex items-center justify-center font-bold text-[11px]">
+                            BP
+                        </div>
+                        <span class="font-bold text-[#14315C] text-sm tracking-tight">BUPA Info · BP Batam</span>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-relaxed max-w-sm">
+                        Direktori pusat data kawasan, fasilitas, struktur organisasi, dan profil pengelolaan aset di lingkungan Badan Usaha Pemanfaatan Aset BP Batam.
+                    </p>
+                </div>
+
+                <!-- Kolom 2: Tautan Cepat -->
+                <div class="md:col-span-3 space-y-2.5">
+                    <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Navigasi</h4>
+                    <ul class="space-y-1.5 text-xs text-gray-500">
+                        <li><a href="{{ route('kawasan') }}" class="hover:text-[#14315C] transition-colors">Daftar Kawasan & Aset</a></li>
+                        <li><a href="{{ route('struktur') }}" class="hover:text-[#14315C] transition-colors">Struktur Organisasi</a></li>
+                        <li><a href="{{ route('tentang') }}" class="hover:text-[#14315C] transition-colors">Tentang Kami</a></li>
+                        <li><a href="https://b-fast.bpbatam.go.id" target="_blank" class="hover:text-[#14315C] transition-colors inline-flex items-center gap-1"><span>Portal B-Fast</span> &rarr;</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kolom 3: Kontak & Lokasi -->
+                <div class="md:col-span-4 space-y-2.5">
+                    <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Kontak</h4>
+                    <p class="text-xs text-gray-500 leading-relaxed">
+                        Gedung Badan Usaha Pemanfaatan Aset (BUPA), Kawasan Batam Center, Kota Batam, Kepulauan Riau
+                    </p>
+                    <div class="text-xs text-gray-600 font-medium">
+                        Email: bupa@bpbatam.go.id
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Copyright Bawah -->
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+                <p>&copy; {{ date('Y') }} Badan Usaha Pemanfaatan Aset (BUPA) - BP Batam.</p>
+                <div class="text-[11px] text-gray-400">
+                    Standar Informasi Internal & Publik
+                </div>
+            </div>
         </div>
     </footer>
 
