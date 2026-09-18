@@ -4,7 +4,6 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 400)">
     
-    <!-- SHIMMER LOADING -->
     <div x-show="loading" class="space-y-6 animate-pulse">
         <div class="h-40 bg-gray-200 rounded-3xl w-full"></div>
         <div class="space-y-4">
@@ -15,14 +14,12 @@
 
     <div x-cloak x-show="!loading" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
         
-        <!-- TOMBOL KEMBALI -->
         <div class="mb-6">
             <a href="{{ route('kawasan') }}" class="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#14315C] bg-white px-4 py-2.5 rounded-xl border border-gray-200/80 shadow-sm transition-all hover:bg-gray-50">
                 &larr; Kembali ke Daftar Kategori
             </a>
         </div>
 
-        <!-- HEADER KATEGORI -->
         <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 mb-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative overflow-hidden">
             <div class="absolute top-0 left-0 w-2.5 h-full bg-[#14315C]"></div>
             
@@ -48,7 +45,6 @@
             </div>
         </div>
 
-        <!-- FORM PENCARIAN -->
         <form method="GET" action="" class="flex flex-col sm:flex-row gap-3 mb-8">
             <div class="relative flex-grow">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -61,14 +57,11 @@
             </button>
         </form>
 
-        <!-- DAFTAR ASET (KARTU KLIKABEL FULL) -->
         <div class="space-y-6">
             @forelse ($asets as $aset)
-                <!-- Tag Pembungkus Utama Sekarang Adalah 'a' (Link) -->
                 <a href="{{ route('aset.show', $aset->id) }}" class="group block bg-white rounded-3xl p-5 sm:p-6 border border-gray-200/80 shadow-md shadow-gray-200/50 hover:shadow-xl hover:border-blue-200 hover:-translate-y-1 transition-all duration-300">
                     <div class="flex flex-col md:flex-row gap-6 items-stretch">
                         
-                        <!-- Thumbnail Gambar -->
                         <div class="w-full md:w-72 h-48 rounded-2xl bg-gray-100 overflow-hidden flex-shrink-0 relative border border-gray-200/60">
                             @if(!empty($aset->foto))
                                 <img src="{{ asset('storage/' . $aset->foto) }}" alt="{{ $aset->nama }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -79,11 +72,9 @@
                             @endif
                         </div>
 
-                        <!-- Konten Data -->
                         <div class="flex flex-col justify-between flex-grow py-1">
                             <div>
                                 <div class="flex items-start justify-between gap-4 mb-2">
-                                    <!-- Judul Aset dengan efek hover warna mengikuti induk kartu -->
                                     <h3 class="text-xl font-extrabold text-[#14315C] group-hover:text-[#C89B3C] transition-colors leading-tight">
                                         {{ $aset->nama }}
                                     </h3>
@@ -126,7 +117,6 @@
                     </div>
                 </a>
             @empty
-                <!-- Tampilan Jika Kosong -->
                 <div class="bg-white rounded-3xl p-12 text-center border border-gray-200/80 shadow-md shadow-gray-200/50">
                     <div class="text-4xl mb-4">📂</div>
                     <h3 class="text-lg font-extrabold text-[#14315C] mb-1">Belum Ada Aset Terdaftar</h3>

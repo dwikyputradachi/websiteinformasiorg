@@ -60,7 +60,6 @@
                 </div>
             </div>
 
-            <!-- FOTO UTAMA & TAMBAH GALERI -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                 <div class="space-y-1.5">
                     <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Ganti Foto Utama Aset</label>

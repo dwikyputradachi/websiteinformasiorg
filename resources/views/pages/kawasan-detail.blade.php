@@ -14,9 +14,6 @@
      }" 
      x-init="setTimeout(() => loading = false, 500)">
     
-    <!-- ========================================== -->
-    <!-- SHIMMER / SKELETON LOADING                 -->
-    <!-- ========================================== -->
     <div x-show="loading" class="space-y-6 animate-pulse">
         <div class="h-9 w-44 bg-gray-200 rounded-xl"></div>
         <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-md h-24"></div>
@@ -31,23 +28,18 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- KONTEN UTAMA                               -->
-    <!-- ========================================== -->
     <div x-cloak x-show="!loading" 
          x-transition:enter="transition ease-out duration-500"
          x-transition:enter-start="opacity-0 translate-y-2"
          x-transition:enter-end="opacity-100 translate-y-0"
          class="space-y-6">
         
-        <!-- Tombol Kembali -->
         <div>
             <a href="{{ $aset->kategori_id ? route('aset.index', $aset->kategori_id) : route('kawasan') }}" class="inline-flex items-center gap-2 text-xs font-bold text-gray-600 hover:text-[#14315C] bg-white px-4 py-2.5 rounded-xl border border-gray-200/80 shadow-sm transition-all hover:bg-gray-50">
                 &larr; Kembali ke Daftar Aset
             </a>
         </div>
 
-        <!-- 1. JUDUL UTAMA DI ATAS -->
         <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
                 <div class="flex items-center gap-2 mb-2">
@@ -74,7 +66,6 @@
             @endif
         </div>
 
-        <!-- 2. KARTU CUACA (Jika ada) -->
         @if ($cuaca)
             @php
                 $iconPaths = [
@@ -104,10 +95,8 @@
             </div>
         @endif
 
-        <!-- 3. MAP + GALERI FOTO (Dinamis dari Database) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            <!-- Peta GIS (Lebar 5) -->
             <div class="lg:col-span-5 bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col justify-between">
                 <div class="text-xs font-extrabold text-[#14315C] mb-3 flex items-center justify-between uppercase tracking-wider">
                     <span>Titik Lokasi Peta (GIS)</span>
@@ -129,10 +118,8 @@
                 </div>
             </div>
 
-            <!-- Galeri Foto & Dokumentasi (Lebar 7 - Dinamis) -->
             @php
                 $fotoUtama = $aset->foto ? asset('storage/' . $aset->foto) : null;
-                // Ambil hingga 3 foto dokumentasi secara acak untuk tampilan depan
                 $galeriAcak = $aset->fotos()->inRandomOrder()->take(2)->get();
                 $totalGaleri = $aset->fotos()->count();
             @endphp
@@ -147,7 +134,6 @@
                 </div>
 
                 <div class="grid grid-cols-3 gap-3 h-72 sm:h-80">
-                    <!-- Foto Utama -->
                     <div class="col-span-2 rounded-2xl bg-gradient-to-br from-[#14315C] to-blue-800 overflow-hidden shadow-inner relative flex items-center justify-center text-white font-extrabold text-sm tracking-wide">
                         @if($fotoUtama)
                             <img src="{{ $fotoUtama }}" alt="{{ $aset->nama }}" class="w-full h-full object-cover">
@@ -157,7 +143,6 @@
                         @endif
                     </div>
 
-                    <!-- Sudut Dokumentasi Acak (Maksimal 2 slot samping) -->
                     <div class="flex flex-col gap-3 h-full">
                         @if($galeriAcak->count() > 0)
                             @foreach($galeriAcak as $idx => $gFoto)
@@ -170,7 +155,6 @@
                                     @endif
                                 </div>
                             @endforeach
-                            <!-- Jika foto dokumentasi kurang dari 2, isi placeholder kosong yang rapi -->
                             @if($galeriAcak->count() == 1)
                                 <div class="h-1/2 rounded-2xl bg-gray-50 overflow-hidden shadow-2xs flex items-center justify-center text-gray-400 text-xs font-bold border border-gray-200/60">
                                     Arsip BUPA
@@ -190,7 +174,6 @@
 
         </div>
 
-        <!-- MODAL POPUP LIHAT SEMUA FOTO -->
         <div x-cloak x-show="showGalleryModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
             <div @click.away="showGalleryModal = false" class="bg-white rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl">
                 <div class="flex items-center justify-between border-b border-gray-100 pb-4">
@@ -220,7 +203,6 @@
             </div>
         </div>
 
-        <!-- 4. DESKRIPSI KAWASAN -->
         <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 space-y-3">
             <h3 class="text-xs font-extrabold text-[#14315C] uppercase tracking-wider">Deskripsi Kawasan</h3>
             <p class="text-gray-600 text-xs sm:text-sm leading-relaxed font-medium">
@@ -228,10 +210,8 @@
             </p>
         </div>
 
-        <!-- 5. BAGIAN BAWAH (Jam Operasional & Pengelola) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- KOLOM KIRI: Jam Operasional -->
             <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md shadow-gray-200/50 space-y-4">
                 <h3 class="text-xs font-extrabold text-[#14315C] uppercase tracking-wider">Jam Operasional</h3>
                 <div class="bg-slate-50/80 p-4 rounded-2xl border border-gray-200/60 space-y-2 text-xs">
@@ -250,13 +230,12 @@
                     @foreach($jadwal as $hari => $jam)
                         <div class="flex items-center justify-between py-1.5 border-b border-gray-200/60 last:border-b-0">
                             <span class="font-bold text-gray-700">{{ $hari }}</span>
-                            <span class="font-extrabold text-[#14315C]">{{ $jam }}</span>
+                            <span class="font-bold text-[#14315C]">{{ $jam }}</span>
                         </div>
                     @endforeach
                 </div>
             </div>
 
-            <!-- KOLOM KANAN: Kontak & Pengelola -->
             <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-gray-200/80 shadow-md shadow-gray-200/50 space-y-4">
                 <h3 class="text-xs font-extrabold text-[#14315C] uppercase tracking-wider">Kontak & Personil Pengelola</h3>
                 
@@ -297,7 +276,6 @@
 
         </div>
 
-        <!-- 6. DAFTAR FASILITAS -->
         <div class="space-y-6 pt-4" x-data="{ 
             fasilitasData: [
                 @foreach($aset->fasilitas as $f)

@@ -15,7 +15,6 @@
         </div>
     </div>
 
-    <!-- FORM TAMBAH JABATAN -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 p-6 sm:p-8">
         <h2 class="text-base font-semibold text-[#14315C] mb-5 tracking-tight flex items-center gap-2">
             <svg class="w-4 h-4 text-[#C89B3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
@@ -43,7 +42,6 @@
         </form>
     </div>
 
-    <!-- TABEL DAFTAR JABATAN -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 bg-slate-50/50 flex items-center justify-between">
             <h3 class="text-xs font-semibold text-[#14315C] uppercase tracking-wider">Daftar Level Jabatan</h3>

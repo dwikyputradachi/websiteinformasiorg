@@ -4,7 +4,6 @@
 @section('content')
 <div x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">   
     
-    <!-- HEADER HALAMAN (Diseragamkan) -->
     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <span class="text-[11px] font-extrabold text-[#C89B3C] uppercase tracking-wider">Direktori Internal</span>
@@ -24,10 +23,8 @@
         </div>
     </div>
 
-    <!-- Konten Bagan Organisasi -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 relative min-h-[450px]">
         
-        <!-- SKELETON / SHIMMER LOADING -->
         <div x-show="loading" class="w-full flex flex-col items-center justify-center py-20">
             <div class="animate-pulse flex flex-col items-center space-y-4">
                 <div class="h-20 w-52 bg-gray-100 rounded-2xl border border-gray-200"></div>
@@ -40,7 +37,6 @@
             </div>
         </div>
 
-        <!-- BAGAN UTAMA -->
         <div x-cloak x-show="!loading" 
              x-transition:enter="transition ease-out duration-500"
              x-transition:enter-start="opacity-0 translate-y-2"

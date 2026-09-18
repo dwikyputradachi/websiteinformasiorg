@@ -32,12 +32,10 @@
         @yield('content')
     </main>
 
-    <!-- FOOTER MINIMALIS & RINGAN -->
     <footer class="bg-white border-t border-gray-100 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-gray-100/80">
                 
-                <!-- Kolom 1: Profil Singkat -->
                 <div class="md:col-span-5 space-y-2.5">
                     <div class="flex items-center gap-2">
                         <div class="w-7 h-7 rounded-lg bg-[#14315C] text-white flex items-center justify-center font-bold text-[11px]">
@@ -50,7 +48,6 @@
                     </p>
                 </div>
 
-                <!-- Kolom 2: Tautan Cepat -->
                 <div class="md:col-span-3 space-y-2.5">
                     <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Navigasi</h4>
                     <ul class="space-y-1.5 text-xs text-gray-500">
@@ -61,7 +58,6 @@
                     </ul>
                 </div>
 
-                <!-- Kolom 3: Kontak & Lokasi -->
                 <div class="md:col-span-4 space-y-2.5">
                     <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Kontak</h4>
                     <p class="text-xs text-gray-500 leading-relaxed">
@@ -74,7 +70,6 @@
 
             </div>
 
-            <!-- Copyright Bawah -->
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
                 <p>&copy; {{ date('Y') }} Badan Usaha Pemanfaatan Aset (BUPA) - BP Batam.</p>
                 <div class="text-[11px] text-gray-400">

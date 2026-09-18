@@ -15,7 +15,6 @@
         </div>
     </div>
 
-    <!-- FORM TAMBAH PEGAWAI BARU -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 p-6 sm:p-8">
         <h2 class="text-base font-extrabold text-[#14315C] mb-5 tracking-tight flex items-center gap-2">
             <svg class="w-4 h-4 text-[#C89B3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
@@ -70,7 +69,6 @@
                 </div>
             </div>
 
-            <!-- CHECKLIST BAGIAN (RAMAH ORANG AWAM) -->
             <div class="space-y-2">
                 <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Pilih Bagian / Unit Kerja</label>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 bg-slate-50 border border-gray-200/80 rounded-2xl p-4 max-h-48 overflow-y-auto">
@@ -91,7 +89,6 @@
         </form>
     </div>
 
-    <!-- TABEL DATA PEGAWAI -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 bg-slate-50/50 flex items-center justify-between">
             <h3 class="text-xs font-extrabold text-[#14315C] uppercase tracking-wider">Daftar Seluruh Pegawai</h3>
