@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Aset extends Model
 {
     protected $fillable = [
-        'nama', 'deskripsi', 'alamat_lokasi', 'koordinat_gis', 'status_operasional',
+        'nama', 'deskripsi', 'alamat_lokasi', 'koordinat_gis', 'latitude', 'longitude', 'status_operasional',
         'kategori_id', 'parent_id', 'link_bfast',
     ];
 
@@ -41,5 +41,14 @@ class Aset extends Model
         return $this->belongsToMany(Pegawai::class, 'aset_pengelola')
             ->withPivot('bagian_id', 'keterangan')
             ->withTimestamps();
+    }
+
+    // Cuaca cuma relevan buat kawasan outdoor - dipakai di AsetController buat memutuskan
+    // apakah perlu panggil WeatherService atau tidak.
+    public function isOutdoor(): bool
+    {
+        $kategoriOutdoor = ['Wisata', 'Sport', 'Agribisnis'];
+
+        return $this->kategori && in_array($this->kategori->nama_kategori, $kategoriOutdoor, true);
     }
 }

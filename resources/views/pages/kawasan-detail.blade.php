@@ -70,7 +70,9 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 bg-blue-50/40 p-6 rounded-2xl border border-blue-100/60 text-xs sm:text-sm">
                 <div class="flex items-start gap-3.5">
-                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-amber-500 mt-0.5 border border-amber-100"></div>
+                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-amber-500 mt-0.5 border border-amber-100">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </div>
                     <div>
                         <div class="font-bold text-[#14315C]">Alamat Lokasi</div>
                         <div class="text-gray-600 mt-0.5 leading-relaxed">{{ $aset->alamat_lokasi ?? 'Alamat wilayah BP Batam' }}</div>
@@ -78,7 +80,9 @@
                 </div>
 
                 <div class="flex items-start gap-3.5">
-                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-[#14315C] mt-0.5 border border-blue-100"></div>
+                    <div class="p-2.5 bg-white rounded-xl shadow-sm text-[#14315C] mt-0.5 border border-blue-100">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a4 4 0 10-4-4"></path></svg>
+                    </div>
                     <div>
                         <div class="font-bold text-[#14315C]">Unit / Personil Pengelola</div>
                         <div class="space-y-1.5 mt-1.5">
@@ -97,6 +101,36 @@
                 </div>
             </div>
         </div>
+
+        <!-- KARTU CUACA (cuma muncul kalau kategori outdoor & koordinat sudah diisi) -->
+        @if ($cuaca)
+            @php
+                $iconPaths = [
+                    'sun' => '<circle cx="12" cy="12" r="4"></circle><path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>',
+                    'sun-cloud' => '<path stroke-linecap="round" stroke-linejoin="round" d="M17.5 19a4.5 4.5 0 10-1.44-8.76A6 6 0 006 12.11M9 5V3m5.66 2.34l1.42-1.42M4 12H2"></path><circle cx="9" cy="6" r="2"></circle>',
+                    'cloud' => '<path stroke-linecap="round" stroke-linejoin="round" d="M17.5 19a4.5 4.5 0 10-1.44-8.76 6 6 0 10-9.82 6.5"></path>',
+                    'rain' => '<path stroke-linecap="round" stroke-linejoin="round" d="M17.5 15a4.5 4.5 0 10-1.44-8.76A6 6 0 105 13.5m3 4v2m4-2v2m4-2v2"></path>',
+                    'storm' => '<path stroke-linecap="round" stroke-linejoin="round" d="M17.5 15a4.5 4.5 0 10-1.44-8.76A6 6 0 105 13.5M13 12l-2 4h3l-2 4"></path>',
+                ];
+                $icon = $iconPaths[$cuaca['icon']] ?? $iconPaths['cloud'];
+            @endphp
+            <div class="bg-gradient-to-r from-[#14315C] to-[#1c4270] rounded-2xl shadow-sm p-6 flex items-center justify-between gap-4 text-white">
+                <div class="flex items-center gap-4">
+                    <svg class="w-10 h-10 text-[#C89B3C] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">{!! $icon !!}</svg>
+                    <div>
+                        <div class="text-2xl font-bold">{{ $cuaca['suhu'] }}&deg;C <span class="text-sm font-normal text-blue-100">&middot; {{ $cuaca['label'] }}</span></div>
+                        <div class="text-xs text-blue-200 mt-0.5">Cuaca saat ini di lokasi kawasan</div>
+                    </div>
+                </div>
+                <div class="text-right hidden sm:block">
+                    @if ($cuaca['cocok_kunjungan'])
+                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-400/20 text-emerald-100 border border-emerald-300/30">Cocok untuk kunjungan</span>
+                    @else
+                        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-400/20 text-amber-100 border border-amber-300/30">Bawa payung / jaket hujan</span>
+                    @endif
+                </div>
+            </div>
+        @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             

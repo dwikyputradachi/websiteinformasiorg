@@ -2,68 +2,221 @@
 @section('title', 'Kawasan & Aset')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 400)">
+@php
+    $semuaAsetAktif = \App\Models\Aset::where('status_operasional', 'Aktif')->whereNotNull('kategori_id')->get();
+@endphp
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" 
+     x-data="katalogUtama()" 
+     x-init="initGPS()">
     
-    <!-- SKELETON -->
-    <div x-show="loading" class="space-y-6 animate-pulse">
-        <div class="h-28 bg-gray-200 rounded-3xl w-full"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="h-48 bg-gray-200 rounded-3xl"></div>
-            <div class="h-48 bg-gray-200 rounded-3xl"></div>
-            <div class="h-48 bg-gray-200 rounded-3xl"></div>
-            <div class="h-48 bg-gray-200 rounded-3xl"></div>
+    <!-- HEADER HALAMAN -->
+    <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-gray-100 pb-6">
+        <div class="max-w-2xl">
+            <span class="inline-block px-3.5 py-1 bg-blue-50 text-[#14315C] rounded-full text-[10px] font-extrabold uppercase tracking-widest mb-3 border border-blue-100">
+                Direktori BUPA
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-[#14315C] tracking-tight mb-3">
+                Kawasan & Aset
+            </h1>
+            <p class="text-gray-500 text-sm sm:text-base leading-relaxed">
+                Telusuri berbagai kawasan dan kategori aset strategis yang dikelola oleh Badan Usaha Pemanfaatan Aset BP Batam secara terstruktur.
+            </p>
         </div>
     </div>
 
-    <!-- KONTEN UTAMA -->
-    <div x-cloak x-show="!loading" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-1" x-transition:enter-end="opacity-100 translate-y-0">
-        
-        <!-- Header Banner -->
-        <div class="bg-[#14315C] rounded-3xl p-8 mb-10 text-white shadow-xl relative overflow-hidden">
-            <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-5"></div>
-            <h1 class="text-3xl font-extrabold mb-2">Kawasan/Aset</h1>
-            <p class="text-blue-100 text-sm max-w-2xl leading-relaxed">
-                Telusuri berbagai kawasan dan kategori aset strategis yang dikelola di bawah Badan Usaha Pemanfaatan Aset BP Batam secara terstruktur.
-            </p>
+    <!-- ========================================== -->
+    <!-- BAGIAN 1: REKOMENDASI TERDEKAT (GPS)       -->
+    <!-- ========================================== -->
+    <div class="mb-16">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-amber-50 flex items-center justify-center text-[#C89B3C] shadow-sm border border-amber-100 flex-shrink-0">
+                    <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-extrabold text-[#14315C]">Rekomendasi Terdekat</h2>
+                    <p class="text-xs font-medium text-gray-500 mt-0.5" x-text="statusText"></p>
+                </div>
+            </div>
+            
+            <button x-show="status === 'ditolak'" @click="initGPS()" class="text-xs font-bold text-[#14315C] bg-white border border-gray-200 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors shadow-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                Aktifkan GPS
+            </button>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            @php
-                $colors = ['border-blue-200'];
-            @endphp
-            @foreach ($kategoris as $i => $k)
+        <!-- Skeleton Loading GPS -->
+        <div x-show="status === 'mencari'" class="grid grid-cols-1 sm:grid-cols-3 gap-6 animate-pulse">
+            <div class="h-60 bg-gray-100 rounded-[2rem] border border-gray-200/60 shadow-sm"></div>
+            <div class="h-60 bg-gray-100 rounded-[2rem] border border-gray-200/60 shadow-sm"></div>
+            <div class="h-60 bg-gray-100 rounded-[2rem] border border-gray-200/60 shadow-sm"></div>
+        </div>
+
+        <!-- Hasil Terdekat / Fallback Acak -->
+        <div x-cloak x-show="status === 'ketemu' || status === 'ditolak'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <template x-for="aset in (status === 'ketemu' ? nearbyAssets : randomAssets)" :key="aset.id">
+                <!-- Card dengan background putih, shadow jelas, dan border samar tipis -->
+                <a :href="aset.url" class="group bg-white rounded-[2rem] p-5 shadow-md shadow-gray-200/60 border border-gray-200/70 hover:shadow-xl hover:border-gray-300 transition-all duration-300 block transform hover:-translate-y-1">
+                    
+                    <div class="w-full h-40 rounded-2xl bg-gray-100 overflow-hidden relative mb-5 border border-gray-100">
+                        <template x-if="aset.foto">
+                            <img :src="aset.foto" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        </template>
+                        <template x-if="!aset.foto">
+                            <div class="w-full h-full bg-gradient-to-br from-[#14315C] to-[#1c4270] flex items-center justify-center text-white text-xs font-bold text-center px-4 leading-relaxed" x-text="aset.nama"></div>
+                        </template>
+                        
+                        <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl shadow-sm text-xs font-black text-[#14315C] border border-gray-100">
+                            <span x-text="status === 'ketemu' ? (aset.jarak + ' Km') : '🌟 Sorotan'"></span>
+                        </div>
+                    </div>
+
+                    <h4 class="font-extrabold text-[#14315C] text-lg mb-1.5 group-hover:text-[#C89B3C] transition-colors truncate" x-text="aset.nama"></h4>
+                    <div class="text-xs text-gray-500 flex items-center gap-1.5 font-medium">
+                        <svg class="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                        <span class="truncate" x-text="aset.alamat"></span>
+                    </div>
+                </a>
+            </template>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- BAGIAN 2: DAFTAR KATEGORI ASET             -->
+    <!-- ========================================== -->
+    <div>
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-11 h-11 rounded-2xl bg-blue-50 flex items-center justify-center text-[#14315C] shadow-sm border border-blue-100 flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+            </div>
+            <h2 class="text-2xl font-extrabold text-[#14315C]">Jelajahi Kategori</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            @foreach ($kategoris as $k)
                 @php 
-                    $borderColor = $colors[$i % count($colors)]; 
                     $initial = strtoupper(substr($k->nama_kategori, 0, 1));
                 @endphp
-                <a href="{{ route('aset.index', ['kategori' => $k->id]) }}" class="group bg-white rounded-3xl p-6 border border-gray-100 border-l-8 {{ $borderColor }} shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+                <!-- Card Kategori dengan shadow jelas dan border samar tipis -->
+                <a href="{{ route('aset.index', ['kategori' => $k->id]) }}" class="group bg-white rounded-[2rem] p-7 shadow-md shadow-gray-200/60 border border-gray-200/70 hover:shadow-xl hover:border-gray-300 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+                    
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-[#14315C] text-white flex items-center justify-center font-extrabold text-lg mb-4 group-hover:bg-[#C89B3C] transition-colors shadow-md">
+                        <!-- Inisial -->
+                        <div class="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-200/60 text-[#14315C] flex items-center justify-center font-black text-xl mb-6 group-hover:bg-[#14315C] group-hover:text-white transition-all duration-300 shadow-2xs">
                             {{ $initial }}
                         </div>
 
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="text-xl font-bold text-[#14315C] group-hover:text-[#C89B3C] transition-colors">
-                                {{ $k->nama_kategori }}
-                            </h3>
-                        </div>
-                        <p class="text-gray-500 text-xs leading-relaxed mb-6 line-clamp-2">
-                            {{ $k->deskripsi ?? 'Jelajahi unit aset dan fasilitas di kawasan ' . $k->nama_kategori . '.' }}
+                        <h3 class="text-xl font-extrabold text-[#14315C] group-hover:text-[#C89B3C] transition-colors mb-2 tracking-tight">
+                            {{ $k->nama_kategori }}
+                        </h3>
+                        <p class="text-gray-500 text-xs font-medium leading-relaxed mb-8 line-clamp-2">
+                            {{ $k->deskripsi ?? 'Jelajahi unit aset dan fasilitas di kategori ' . $k->nama_kategori . '.' }}
                         </p>
                     </div>
 
-                    <div class="flex items-center justify-between pt-4 border-t border-gray-50">
-                        <span class="text-xs font-semibold bg-blue-50 text-[#14315C] px-3 py-1 rounded-xl border border-blue-100">
+                    <div class="flex items-center justify-between pt-5 border-t border-gray-100">
+                        <span class="text-[10px] font-extrabold bg-gray-50 text-[#14315C] px-3.5 py-1.5 rounded-lg border border-gray-200/60 uppercase tracking-widest">
                             {{ $k->aset_utama_count ?? 0 }} Aset
                         </span>
-                        <span class="text-xs font-semibold text-[#14315C] group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-                            Buka &rarr;
-                        </span>
+                        <div class="w-8 h-8 rounded-full bg-gray-50 border border-gray-200/60 flex items-center justify-center text-gray-400 group-hover:bg-[#14315C] group-hover:text-white group-hover:border-transparent transition-colors">
+                            <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
                     </div>
                 </a>
             @endforeach
         </div>
-
     </div>
+
 </div>
+
+<!-- SCRIPT GPS HAVERSINE -->
+<script>
+    function katalogUtama() {
+        return {
+            status: 'mencari',
+            statusText: 'Melacak lokasi GPS Anda...',
+            semuaAset: [
+                @foreach($semuaAsetAktif as $a)
+                @php
+                    $lat = $a->latitude ?? 0;
+                    $lon = $a->longitude ?? 0;
+                    if (!$lat || !$lon) {
+                        if (preg_match('/^(-?\d+(\.\d+)?),\s*(-?\d+(\.\d+)?)$/', trim($a->koordinat_gis), $m)) {
+                            $lat = (float)$m[1];
+                            $lon = (float)$m[3];
+                        }
+                    }
+                @endphp
+                {
+                    id: {{ $a->id }},
+                    nama: '{{ addslashes($a->nama) }}',
+                    alamat: '{{ addslashes($a->alamat_lokasi ?? "Batam, Kepulauan Riau") }}',
+                    foto: '{{ $a->foto ? asset('storage/'.$a->foto) : "" }}',
+                    url: '{{ route("aset.show", $a->id) }}',
+                    lat: {{ $lat }},
+                    lon: {{ $lon }},
+                    jarak: 9999
+                },
+                @endforeach
+            ],
+            nearbyAssets: [],
+            randomAssets: [],
+            
+            initGPS() {
+                this.status = 'mencari';
+                this.statusText = 'Melacak lokasi GPS Anda...';
+                
+                this.randomAssets = [...this.semuaAset].sort(() => 0.5 - Math.random()).slice(0, 3);
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            let userLat = position.coords.latitude;
+                            let userLon = position.coords.longitude;
+                            
+                            this.semuaAset.forEach(a => {
+                                if(a.lat !== 0 && a.lon !== 0) {
+                                    a.jarak = this.hitungJarakBumi(userLat, userLon, a.lat, a.lon);
+                                }
+                            });
+                            
+                            this.nearbyAssets = [...this.semuaAset]
+                                .filter(a => a.jarak !== 9999)
+                                .sort((a,b) => parseFloat(a.jarak) - parseFloat(b.jarak))
+                                .slice(0, 3);
+                                
+                            if(this.nearbyAssets.length > 0) {
+                                this.status = 'ketemu';
+                                this.statusText = 'Berdasarkan jarak aktual dari posisi Anda.';
+                            } else {
+                                this.status = 'ditolak';
+                                this.statusText = 'Belum ada aset dengan koordinat yang valid.';
+                            }
+                        },
+                        (error) => {
+                            this.status = 'ditolak';
+                            this.statusText = 'Akses lokasi ditolak. Menampilkan aset pilihan.';
+                        },
+                        { timeout: 7000 }
+                    );
+                } else {
+                    this.status = 'ditolak';
+                    this.statusText = 'Browser tidak mendukung fitur GPS.';
+                }
+            },
+            
+            hitungJarakBumi(lat1, lon1, lat2, lon2) {
+                const R = 6371; 
+                const dLat = (lat2 - lat1) * Math.PI / 180;
+                const dLon = (lon2 - lon1) * Math.PI / 180;
+                const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                        Math.sin(dLon/2) * Math.sin(dLon/2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                return (R * c).toFixed(1); 
+            }
+        }
+    }
+</script>
 @endsection
