@@ -12,6 +12,8 @@ use App\Http\Controllers\PegawaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Admin\BannerController; 
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\PostController as PublicPostController;
 
 Route::get('/', [AsetController::class, 'kategoriIndex'])->name('home');
 Route::get('/cari', [SearchController::class, 'cari'])->name('cari');
@@ -21,7 +23,8 @@ Route::get('/aset/{aset}', [AsetController::class, 'show'])->name('aset.show');
 Route::get('/struktur-organisasi', [PegawaiController::class, 'struktur'])->name('struktur');
 Route::get('/pegawai/{pegawai}', [PegawaiController::class, 'show'])->name('pegawai.show');
 Route::view('/tentang-kami', 'pages.tentang-kami')->name('tentang');
-
+Route::get('/informasi', [PublicPostController::class, 'index'])->name('informasi.index');
+Route::get('/informasi/{post:slug}', [PublicPostController::class, 'show'])->name('informasi.show');
 Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))
     ->middleware('auth')
     ->name('dashboard');
@@ -41,4 +44,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('banners', BannerController::class)->parameters(['banners' => 'banner']);
     Route::patch('banners/{banner}/toggle', [BannerController::class, 'toggle'])->name('banners.toggle');
     Route::resource('banners', BannerController::class)->parameters(['banners' => 'banner']);
+    Route::resource('posts', AdminPostController::class);
+   
 });

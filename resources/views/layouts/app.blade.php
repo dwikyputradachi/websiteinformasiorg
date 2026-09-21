@@ -41,7 +41,7 @@
                         <div class="w-7 h-7 rounded-lg bg-[#14315C] text-white flex items-center justify-center font-bold text-[11px]">
                             BP
                         </div>
-                        <span class="font-bold text-[#14315C] text-sm tracking-tight">BUPA Info · BP Batam</span>
+                        <span class="font-bold text-[#14315C] text-sm tracking-tight">BUPA Info</span>
                     </div>
                     <p class="text-xs text-gray-500 leading-relaxed max-w-sm">
                         Direktori pusat data kawasan, fasilitas, struktur organisasi, dan profil pengelolaan aset di lingkungan Badan Usaha Pemanfaatan Aset BP Batam.
@@ -59,9 +59,9 @@
                 </div>
 
                 <div class="md:col-span-4 space-y-2.5">
-                    <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Kontak</h4>
+                    <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Alamat</h4>
                     <p class="text-xs text-gray-500 leading-relaxed">
-                        Gedung Badan Usaha Pemanfaatan Aset (BUPA), Kawasan Batam Center, Kota Batam, Kepulauan Riau
+                        Jl. RE Martadinata, Tj. Pinggir, Kec. Sekupang, Kota Batam, Kepulauan Riau
                     </p>
                     <div class="text-xs text-gray-600 font-medium">
                         Email: bupa@bpbatam.go.id
@@ -71,10 +71,8 @@
             </div>
 
             <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
-                <p>&copy; {{ date('Y') }} Badan Usaha Pemanfaatan Aset (BUPA) - BP Batam.</p>
-                <div class="text-[11px] text-gray-400">
-                    Standar Informasi Internal & Publik
-                </div>
+                <p>&copy; {{ date('Y') }} Badan Usaha Pemanfaatan Aset (BUPA).</p>
+                
             </div>
         </div>
     </footer>

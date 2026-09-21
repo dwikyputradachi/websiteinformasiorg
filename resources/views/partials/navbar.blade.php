@@ -29,6 +29,11 @@
                 <a href="{{ route('tentang') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ Request::routeIs('tentang') ? 'border-[#C89B3C] text-[#14315C] font-bold' : 'border-transparent text-gray-500 hover:text-[#14315C] hover:border-gray-200' }} text-sm transition-all duration-300">
                     Tentang Kami
                 </a>
+                <a href="{{ route('informasi.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ Request::routeIs('informasi.*') ? 'border-[#C89B3C] text-[#14315C] font-bold' : 'border-transparent text-gray-500 hover:text-[#14315C] hover:border-gray-200' }} text-sm transition-all duration-300">
+                    Berita
+                </a>
+
+                
             </div>
 
             <div class="flex items-center md:hidden">
@@ -67,6 +72,10 @@
             <a href="{{ route('tentang') }}" class="block px-4 py-3 rounded-xl text-sm {{ Request::routeIs('tentang') ? 'bg-blue-50 text-[#14315C] font-extrabold' : 'text-gray-600 font-medium hover:bg-slate-50 hover:text-[#14315C]' }} transition-colors">
                 Tentang Kami
             </a>
+            <a href="{{ route('informasi.index') }}" class="block px-4 py-3 rounded-xl text-sm {{ Request::routeIs('informasi.*') ? 'bg-blue-50 text-[#14315C] font-extrabold' : 'text-gray-600 font-medium hover:bg-slate-50 hover:text-[#14315C]' }} transition-colors">
+                Berita & Informasi
+            </a>
+
         </div>
     </div>
 </nav>
