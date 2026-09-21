@@ -3,8 +3,7 @@
 
 @section('content')
 <div class="space-y-8">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">        <div>
             <h1 class="text-2xl sm:text-3xl font-bold text-[#14315C] tracking-tight mt-0.5">Posisi Jabatan</h1>
             <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">
                 Atur level hierarki dan nama posisi jabatan untuk struktur kepegawaian.
