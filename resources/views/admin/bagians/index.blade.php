@@ -3,8 +3,6 @@
 
 @section('content')
 <div class="space-y-8">
-
-    <!-- HEADER HALAMAN -->
     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <span class="text-[11px] font-semibold text-[#C89B3C] uppercase tracking-wider">Panel Admin</span>
@@ -17,8 +15,6 @@
             <span class="text-xs font-bold text-[#14315C]">Total Bagian: {{ $bagians->count() }} unit</span>
         </div>
     </div>
-
-    <!-- FORM TAMBAH BAGIAN -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 p-6 sm:p-8">
         <h2 class="text-base font-semibold text-[#14315C] mb-5 tracking-tight flex items-center gap-2">
             <svg class="w-4 h-4 text-[#C89B3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
@@ -39,8 +35,6 @@
             </div>
         </form>
     </div>
-
-    <!-- TABEL DAFTAR BAGIAN -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 bg-slate-50/50 flex items-center justify-between">
             <h3 class="text-xs font-semibold text-[#14315C] uppercase tracking-wider">Daftar Unit Bagian</h3>
