@@ -20,17 +20,17 @@ class AsetController extends Controller
         return view('admin.asets.index', compact('asets', 'kategoris', 'asetIndukPilihan'));
     }
 
-   public function store(Request $request)
+    public function store(Request $request)
     {
         $data = $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'alamat_lokasi' => 'nullable|string|max:255',
-            'koordinat_gis' => 'nullable|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
             'status_operasional' => 'required|in:Aktif,Renovasi,Tidak Aktif',
             'kategori_id' => 'nullable|exists:kategori_asets,id',
-            'link_bfast' => 'nullable|url',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi foto
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'galeri.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -41,13 +41,13 @@ class AsetController extends Controller
         $aset = Aset::create($data);
 
         if ($request->hasFile('galeri')) {
-            $files = array_slice($request->file('galeri'), 0, 5); // Ambil maks 5
+            $files = array_slice($request->file('galeri'), 0, 5);
             foreach ($files as $file) {
                 $path = $file->store('aset-galeri', 'public');
                 $aset->fotos()->create(['foto' => $path]);
             }
         }
-        dd($request->all(), $request->hasFile('foto'));
+        
         ActivityLog::catat('menambah', 'aset', $aset->id);
 
         return redirect()->route('admin.asets.index')->with('status', 'Aset berhasil ditambahkan.');
@@ -76,6 +76,7 @@ class AsetController extends Controller
 
         return back()->with('status', 'Aset beserta seluruh fotonya berhasil dihapus.');
     }
+
     public function edit(Aset $aset)
     {
         $kategoris = KategoriAset::orderBy('nama_kategori')->get();
@@ -88,10 +89,10 @@ class AsetController extends Controller
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'alamat_lokasi' => 'nullable|string|max:255',
-            'koordinat_gis' => 'nullable|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
             'status_operasional' => 'required|in:Aktif,Renovasi,Tidak Aktif',
             'kategori_id' => 'nullable|exists:kategori_asets,id',
-            'link_bfast' => 'nullable|url',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'galeri.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);

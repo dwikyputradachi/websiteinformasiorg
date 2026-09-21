@@ -57,12 +57,12 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Link B-Fast (Opsional)</label>
-                    <input type="url" name="link_bfast" placeholder="https://b-fast.bpbatam.go.id/..." class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Latitude (Lintang)</label>
+                    <input type="text" name="latitude" placeholder="Contoh: 1.123825" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
                 </div>
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Koordinat GIS / Google Maps</label>
-                    <input type="text" name="koordinat_gis" placeholder="1.123825, 103.935072 atau link maps" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Longitude (Bujur)</label>
+                    <input type="text" name="longitude" placeholder="Contoh: 103.935072" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
                 </div>
             </div>
 
