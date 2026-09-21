@@ -15,13 +15,11 @@
        href="{{ route('pegawai.show', $pegawai) }}" 
        style="color:inherit;">
 
-        <!-- Garis Aksen Warna di Atas Kartu -->
         <div class="absolute top-0 left-0 right-0 h-1.5" style="background:{{ $color['bar'] }}"></div>
 
         <div class="relative z-20">
             <div class="flex justify-between items-start mb-3 mt-1">
                 
-                <!-- Foto / Inisial Avatar -->
                 <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs tracking-wide shadow-2xs overflow-hidden border border-gray-100" 
                      style="background:{{ $color['bg'] }};color:{{ $color['fg'] }}">
                     @if ($pegawai->foto)
@@ -31,7 +29,6 @@
                     @endif
                 </div>
 
-                <!-- Indikator Jumlah Bawahan -->
                 @if ($bawahan->count() > 0)
                     <div class="flex items-center gap-1 text-[10px] font-bold text-gray-500 bg-slate-50 px-2 py-1 rounded-lg border border-gray-200/60" title="Memiliki {{ $bawahan->count() }} anggota tim">
                         <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +40,6 @@
 
             </div>
 
-            <!-- Nama & Jabatan (Proporsional, tidak terlalu tebal) -->
             <div class="text-left">
                 <div class="text-xs font-bold text-gray-800 group-hover:text-[#14315C] transition-colors truncate" title="{{ $pegawai->nama }}">
                     {{ $pegawai->nama }}
@@ -55,7 +51,6 @@
         </div>
     </a>
 
-    <!-- Rekursif Bawahan -->
     @if ($bawahan->count())
         <ul>
             @foreach ($bawahan as $i => $anak)

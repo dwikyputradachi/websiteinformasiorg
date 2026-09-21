@@ -4,7 +4,6 @@
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6">
 
-    <!-- HEADER KEMBALI -->
     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 flex items-center justify-between">
         <div>
             <span class="text-[11px] font-extrabold text-[#C89B3C] uppercase tracking-wider">Panel Admin</span>
@@ -15,7 +14,6 @@
         </a>
     </div>
 
-    <!-- FORM EDIT -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 p-6 sm:p-8">
         <form method="POST" action="{{ route('admin.pegawais.update', $pegawai) }}" enctype="multipart/form-data" class="space-y-5">
             @csrf @method('PUT')

@@ -28,7 +28,6 @@ class BannerController extends Controller
             $data['foto'] = $request->file('foto')->store('banners', 'public');
         }
 
-        // Default aktif saat baru di-upload
         $data['is_active'] = 1;
 
         $banner = Banner::create($data);
@@ -37,7 +36,6 @@ class BannerController extends Controller
         return back()->with('status', 'Banner berhasil diunggah.');
     }
 
-    // FITUR BARU: Mengubah status Aktif / Non-Aktif
     public function toggle(Banner $banner)
     {
         $banner->is_active = !$banner->is_active;

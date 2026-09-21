@@ -20,9 +20,9 @@ class Aset extends Model
         'longitude',
         'status_operasional',
         'foto',
-        'jam_operasional', // <-- Tambahkan ini
-        'kontak_cs',       // <-- Tambahkan ini
-        'is_outdoor',      // <-- Tambahkan ini
+        'jam_operasional', 
+        'kontak_cs',       
+        'is_outdoor',      
         'link_bfast',
     ];
 
@@ -36,7 +36,6 @@ class Aset extends Model
         return $this->belongsTo(Aset::class, 'parent_id');
     }
 
-    // Sub-unit yang bisa disewa mandiri (Kios A, Kios B, Gerai A, dst) - punya link_bfast sendiri.
     public function children(): HasMany
     {
         return $this->hasMany(Aset::class, 'parent_id');
@@ -47,7 +46,6 @@ class Aset extends Model
         return $this->hasMany(Fasilitas::class);
     }
 
-    // Semua pengelola aset ini beserta bagian/kapasitas & keterangan masing-masing.
     public function pengelola(): BelongsToMany
     {
         return $this->belongsToMany(Pegawai::class, 'aset_pengelola')
@@ -55,8 +53,6 @@ class Aset extends Model
             ->withTimestamps();
     }
 
-    // Cuaca cuma relevan buat kawasan outdoor - dipakai di AsetController buat memutuskan
-    // apakah perlu panggil WeatherService atau tidak.
     public function isOutdoor(): bool
     {
         return (bool) $this->is_outdoor;

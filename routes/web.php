@@ -11,8 +11,7 @@ use App\Http\Controllers\AsetController;
 use App\Http\Controllers\PegawaiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\Admin\BannerController; // Jangan lupa import controller ini di bagian atas
-
+use App\Http\Controllers\Admin\BannerController; 
 
 Route::get('/', [AsetController::class, 'kategoriIndex'])->name('home');
 Route::get('/cari', [SearchController::class, 'cari'])->name('cari');
@@ -29,7 +28,6 @@ Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))
 
 require __DIR__ . '/auth.php';
 
-// Admin rute ni
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', fn () => redirect()->route('admin.pegawais.index'))->name('dashboard');
 

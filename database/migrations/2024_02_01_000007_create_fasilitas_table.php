@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('fasilitas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama'); // Pakan Kelinci, Gazebo, Tiket Masuk, Wi-Fi, dst - tanpa rantai sewa sendiri.
+            $table->string('nama'); 
             $table->text('deskripsi')->nullable();
             $table->string('foto')->nullable();
             $table->foreignId('aset_id')->constrained('asets')->cascadeOnDelete();

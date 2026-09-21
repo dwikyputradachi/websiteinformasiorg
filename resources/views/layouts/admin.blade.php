@@ -105,7 +105,6 @@
                     </div>
                 @endif
 
-                <!-- State Loading Skeleton -->
                 <div x-show="loading" class="w-full space-y-6">
                     <div class="animate-pulse space-y-4">
                         <div class="h-32 bg-white rounded-3xl border border-gray-100 p-6 shadow-sm">
@@ -121,7 +120,6 @@
                     </div>
                 </div>
 
-                <!-- Konten Asli -->
                 <div x-cloak x-show="!loading" 
                      x-transition:enter="transition ease-out duration-300"
                      x-transition:enter-start="opacity-0 translate-y-2"

@@ -51,21 +51,26 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Link B-Fast (Opsional)</label>
-                    <input type="url" name="link_bfast" value="{{ old('link_bfast', $aset->link_bfast) }}" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Latitude (Lintang)</label>
+                    <input type="text" name="latitude" value="{{ old('latitude', $aset->latitude) }}" placeholder="Contoh: 1.123825" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
                 </div>
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Longitude (Bujur)</label>
+                    <input type="text" name="longitude" value="{{ old('longitude', $aset->longitude) }}" placeholder="Contoh: 103.935072" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                </div>
+            
                 <div class="space-y-1.5">
                     <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Koordinat GIS / Google Maps</label>
                     <input type="text" name="koordinat_gis" value="{{ old('koordinat_gis', $aset->koordinat_gis) }}" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
                 </div>
             </div>
-
-            <!-- FOTO UTAMA & TAMBAH GALERI -->
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                 <div class="space-y-1.5">
                     <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Ganti Foto Utama Aset</label>
                     <input type="file" name="foto" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-[#14315C] hover:file:bg-blue-100 transition-all">
                 </div>
+                
                 @if($aset->foto)
                     <div class="flex items-center gap-3 pt-4">
                         <div class="w-14 h-14 rounded-xl overflow-hidden border border-gray-200 shadow-sm flex-shrink-0">

@@ -10,7 +10,6 @@
      x-data="katalogUtama()" 
      x-init="initGPS()">
     
-    <!-- HEADER HALAMAN (Diseragamkan dengan card putih minimalis) -->
     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
             <span class="text-[11px] font-extrabold text-[#C89B3C] uppercase tracking-wider">Direktori BUPA</span>
@@ -23,9 +22,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- BAGIAN 1: REKOMENDASI TERDEKAT (GPS)       -->
-    <!-- ========================================== -->
     <div class="space-y-6">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -44,14 +40,12 @@
             </button>
         </div>
 
-        <!-- Skeleton Loading GPS -->
         <div x-show="status === 'mencari'" class="grid grid-cols-1 sm:grid-cols-3 gap-6 animate-pulse">
             <div class="h-60 bg-gray-100 rounded-3xl border border-gray-200/80 shadow-md"></div>
             <div class="h-60 bg-gray-100 rounded-3xl border border-gray-200/80 shadow-md"></div>
             <div class="h-60 bg-gray-100 rounded-3xl border border-gray-200/80 shadow-md"></div>
         </div>
 
-        <!-- Hasil Terdekat / Fallback Acak -->
         <div x-cloak x-show="status === 'ketemu' || status === 'ditolak'" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <template x-for="aset in (status === 'ketemu' ? nearbyAssets : randomAssets)" :key="aset.id">
                 <a :href="aset.url" class="group bg-white rounded-3xl p-5 shadow-md shadow-gray-200/50 border border-gray-200/80 hover:shadow-xl hover:border-gray-300 transition-all duration-300 block transform hover:-translate-y-1">
@@ -79,9 +73,6 @@
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- BAGIAN 2: DAFTAR KATEGORI ASET             -->
-    <!-- ========================================== -->
     <div class="space-y-6 pt-4">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-[#14315C] shadow-2xs border border-blue-100 flex-shrink-0">

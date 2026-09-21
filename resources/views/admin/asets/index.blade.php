@@ -4,7 +4,6 @@
 @section('content')
 <div class="space-y-8">
 
-    <!-- HEADER / JUDUL HALAMAN -->
     <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-md shadow-gray-200/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-2xl sm:text-3xl font-bold text-[#14315C] tracking-tight mt-0.5">Manajemen Aset & Kawasan</h1>
@@ -17,7 +16,6 @@
         </div>
     </div>
 
-    <!-- FORM TAMBAH ASET (Slim & Minimalis) -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 p-6 sm:p-8">
         <h2 class="text-base font-extrabold text-[#14315C] mb-5 tracking-tight flex items-center gap-2">
             <svg class="w-4 h-4 text-[#C89B3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
@@ -59,16 +57,15 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Link B-Fast (Opsional)</label>
-                    <input type="url" name="link_bfast" placeholder="https://b-fast.bpbatam.go.id/..." class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Latitude (Lintang)</label>
+                    <input type="text" name="latitude" placeholder="Contoh: 1.123825" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
                 </div>
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Koordinat GIS / Google Maps</label>
-                    <input type="text" name="koordinat_gis" placeholder="1.123825, 103.935072 atau link maps" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Longitude (Bujur)</label>
+                    <input type="text" name="longitude" placeholder="Contoh: 103.935072" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
                 </div>
             </div>
 
-            <!-- UPLOAD FOTO UTAMA & GALERI -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-1.5">
                     <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Foto Utama Aset</label>
@@ -93,7 +90,6 @@
         </form>
     </div>
 
-    <!-- TABEL DATA ASET -->
     <div class="bg-white rounded-3xl shadow-md shadow-gray-200/50 border border-gray-200/80 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 bg-slate-50/50 flex items-center justify-between">
             <h3 class="text-xs font-bold text-[#14315C] uppercase tracking-wider">Daftar Seluruh Aset</h3>
@@ -144,10 +140,8 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-right flex justify-end gap-2">
-                                <!-- Tombol Edit -->
                                 <a href="{{ route('admin.asets.edit', $a) }}" class="text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100 transition-colors">Edit</a>
                                 
-                                <!-- Tombol Hapus -->
                                 <form method="POST" action="{{ route('admin.asets.destroy', $a) }}" class="inline-block" onsubmit="return confirm('Hapus aset ini beserta seluruh galeri dokumentasinya?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="text-xs font-bold text-rose-600 hover:text-rose-800 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-100 transition-colors">Hapus</button>

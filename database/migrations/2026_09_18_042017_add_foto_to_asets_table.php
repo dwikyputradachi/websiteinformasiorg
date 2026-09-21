@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('asets', function (Blueprint $table) {
-            $table->string('foto')->nullable()->after('nama'); // Menyimpan path foto utama aset
+            $table->string('foto')->nullable()->after('nama');
         });
     }
 

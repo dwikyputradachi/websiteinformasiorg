@@ -5,10 +5,6 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
      x-data="{ loading: true }"
      x-init="setTimeout(() => loading = false, 500)">
-
-    <!-- ========================================== -->
-    <!-- SHIMMER / SKELETON LOADING                 -->
-    <!-- ========================================== -->
     <div x-show="loading" class="space-y-10 animate-pulse">
         <div class="bg-gray-100 rounded-3xl h-64 border border-gray-200/80 shadow-md"></div>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -18,15 +14,11 @@
         <div class="bg-gray-100 rounded-3xl h-72 border border-gray-200/80 shadow-md"></div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- KONTEN UTAMA                               -->
-    <!-- ========================================== -->
     <div x-cloak x-show="!loading" 
          x-transition:enter="transition ease-out duration-500"
          x-transition:enter-start="opacity-0 translate-y-2"
          x-transition:enter-end="opacity-100 translate-y-0">
 
-        <!-- HEADER BANNER -->
         <div class="bg-[#14315C] rounded-3xl p-8 sm:p-14 mb-14 shadow-md shadow-gray-200/50 border border-blue-900/40 relative overflow-hidden">
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-white opacity-5"></div>
             <div class="absolute bottom-0 left-10 -mb-24 w-56 h-56 rounded-full bg-white opacity-5"></div>
@@ -43,7 +35,6 @@
             </div>
         </div>
 
-        <!-- SEKSI KONTEN & CAKUPAN -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-14 items-start">
             <div class="lg:col-span-2 bg-white rounded-3xl p-8 border border-gray-200/80 shadow-md shadow-gray-200/50">
                 <h2 class="text-2xl font-extrabold text-[#14315C] mb-4 tracking-tight">Kenapa website ini dibuat?</h2>
@@ -88,7 +79,6 @@
             </div>
         </div>
 
-        <!-- PERBANDINGAN BUPA INFO VS B-FAST -->
         <div class="mb-14">
             <h2 class="text-2xl font-extrabold text-[#14315C] mb-6 text-center tracking-tight">BUPA Info vs B-Fast</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -119,7 +109,6 @@
             </div>
         </div>
 
-        <!-- CALL TO ACTION -->
         <div class="bg-white rounded-3xl border border-gray-200/80 shadow-md shadow-gray-200/50 p-8 sm:p-10 text-center">
             <h2 class="text-xl font-extrabold text-[#14315C] mb-2 tracking-tight">Punya pertanyaan atau masukan?</h2>
             <p class="text-xs sm:text-sm text-gray-500 font-medium max-w-md mx-auto mb-6 leading-relaxed">

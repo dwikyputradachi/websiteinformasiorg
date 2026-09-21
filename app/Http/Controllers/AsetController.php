@@ -23,7 +23,6 @@ class AsetController extends Controller
             try {
                 $banners = Banner::where('is_active', true)->latest()->take(4)->get();
             } catch (\Exception $e) {
-                // Abaikan error jika tabel belum di-migrate
             }
         }
 
@@ -56,19 +55,14 @@ class AsetController extends Controller
             ->with(['pegawai.jabatan', 'bagian'])
             ->get();
 
-        // Cuaca cuma diambil kalau kategori outdoor (Wisata/Sport/Agribisnis) DAN koordinat ada
         $cuaca = null;
         if ($aset->isOutdoor() && $aset->latitude && $aset->longitude) {
             $cuaca = $weather->ambilCuacaSaatIni((float) $aset->latitude, (float) $aset->longitude);
         }
 
-        // ==========================================
-        // FITUR BARU: LOGIKA "JELAJAHI DI SEKITAR"
-        // ==========================================
         $allAsets = Aset::where('id', '!=', $aset->id)->where('status_operasional', 'Aktif')->get();
         $nearbyAsets = collect();
 
-        // Kita gunakan $aset->latitude/longitude (dari Claude) ATAU regex dari koordinat_gis
         $currentLat = $aset->latitude ?? null;
         $currentLon = $aset->longitude ?? null;
 
@@ -92,7 +86,6 @@ class AsetController extends Controller
                 }
 
                 if ($otherLat && $otherLon) {
-                    // Rumus Haversine (Jarak Bumi Asli dalam KM)
                     $earthRadius = 6371; 
                     $dLat = deg2rad($otherLat - $currentLat);
                     $dLon = deg2rad($otherLon - $currentLon);
@@ -104,11 +97,9 @@ class AsetController extends Controller
                     $nearbyAsets->push($otherAset);
                 }
             }
-            // Urutkan jarak dari yang paling dekat, ambil 3 teratas
             $nearbyAsets = $nearbyAsets->sortBy('jarak_km')->take(3);
         }
 
-        // FALLBACK: Kalau koordinat error/kosong, ambil 3 aset acak dari kategori yang sama
         if ($nearbyAsets->isEmpty()) {
             $nearbyAsets = Aset::where('id', '!=', $aset->id)
                                ->where('kategori_id', $aset->kategori_id)
@@ -117,7 +108,6 @@ class AsetController extends Controller
                                ->get();
         }
 
-        // Jangan lupa tambahkan $nearbyAsets di dalam array compact!
         return view('pages.kawasan-detail', compact('aset', 'pengelola', 'cuaca', 'nearbyAsets'));
     }
 }

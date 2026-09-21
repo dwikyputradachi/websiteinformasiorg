@@ -8,12 +8,8 @@ use Illuminate\Support\Facades\Log;
 
 class WeatherService
 {
-    // Open-Meteo: gratis, tanpa API key, cukup kirim latitude & longitude.
-    // Dokumentasi: https://open-meteo.com/en/docs
     private const BASE_URL = 'https://api.open-meteo.com/v1/forecast';
 
-    // Pemetaan kode cuaca WMO (dipakai Open-Meteo) ke label & ikon Indonesia.
-    // Referensi kode: https://open-meteo.com/en/docs#weathervariables
     private const KODE_CUACA = [
         0 => ['label' => 'Cerah', 'icon' => 'sun', 'cocok' => true],
         1 => ['label' => 'Cerah Berawan', 'icon' => 'sun-cloud', 'cocok' => true],
@@ -35,10 +31,6 @@ class WeatherService
         99 => ['label' => 'Badai Petir & Hujan Es Lebat', 'icon' => 'storm', 'cocok' => false],
     ];
 
-    /**
-     * Ambil cuaca saat ini untuk satu titik koordinat.
-     * Return null kalau gagal (API down, dsb) - halaman tetap harus jalan tanpa cuaca.
-     */
     public function ambilCuacaSaatIni(float $latitude, float $longitude): ?array
     {
         $cacheKey = "cuaca:{$latitude}:{$longitude}";
