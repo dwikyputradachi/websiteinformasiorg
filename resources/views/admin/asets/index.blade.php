@@ -8,7 +8,7 @@
         <div>
             <h1 class="text-2xl sm:text-3xl font-bold text-[#14315C] tracking-tight mt-0.5">Manajemen Aset & Kawasan</h1>
             <p class="text-xs sm:text-sm text-gray-500 font-medium mt-1">
-                Kelola data entitas kawasan, status operasional, foto utama, dan galeri dokumentasi aset BUPA.
+                Kelola data entitas kawasan, jenis area, jam operasional, status, foto, dan galeri aset BUPA.
             </p>
         </div>
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-gray-200/80 rounded-2xl shadow-2xs">
@@ -22,8 +22,9 @@
             Tambah Aset / Kawasan Baru
         </h2>
         
-        <form method="POST" action="{{ route('admin.asets.store') }}" enctype="multipart/form-data" class="space-y-5">
+        <form method="POST" action="{{ route('admin.asets.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-1.5">
                     <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Nama Aset</label>
@@ -35,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="space-y-1.5">
                     <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Kategori</label>
                     <select name="kategori_id" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
@@ -53,16 +54,64 @@
                         <option value="Tidak Aktif">Tidak Aktif</option>
                     </select>
                 </div>
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Jenis Area</label>
+                    <select name="is_outdoor" required class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                        <option value="1">Outdoor (Luar Ruangan)</option>
+                        <option value="0">Indoor (Dalam Ruangan)</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Latitude (Lintang)</label>
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Koordinat GIS (Plus Code / Alamat Peta)</label>
+                    <input type="text" name="koordinat_gis" placeholder="Contoh: 4WHG+94P, Jl. RE Martadinata" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Latitude (Untuk Cuaca)</label>
                     <input type="text" name="latitude" placeholder="Contoh: 1.123825" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
                 </div>
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Longitude (Bujur)</label>
+                    <label class="block text-xs font-extrabold text-gray-600 uppercase tracking-wider">Longitude (Untuk Cuaca)</label>
                     <input type="text" name="longitude" placeholder="Contoh: 103.935072" class="w-full bg-slate-50 border border-gray-200/80 rounded-xl px-3.5 py-2.5 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] focus:bg-white outline-none transition-all">
+                </div>
+            </div>
+
+            <div class="p-5 bg-slate-50/70 border border-gray-200/80 rounded-2xl space-y-4">
+                <h3 class="text-xs font-extrabold text-[#14315C] uppercase tracking-wider flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[#C89B3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Jam Operasional Harian
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-bold text-gray-600">Senin</label>
+                        <input type="text" name="senin" value="07:00 - 18:00" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-bold text-gray-600">Selasa</label>
+                        <input type="text" name="selasa" value="07:00 - 18:00" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-bold text-gray-600">Rabu</label>
+                        <input type="text" name="rabu" value="07:00 - 18:00" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-bold text-gray-600">Kamis</label>
+                        <input type="text" name="kamis" value="07:00 - 18:00" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-bold text-gray-600">Jumat</label>
+                        <input type="text" name="jumat" value="07:00 - 18:00" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-bold text-gray-600">Sabtu</label>
+                        <input type="text" name="sabtu" value="07:00 - 18:00" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] outline-none">
+                    </div>
+                    <div class="space-y-1 sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-gray-600">Minggu</label>
+                        <input type="text" name="minggu" value="07:00 - 18:00" class="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:ring-2 focus:ring-[#14315C] outline-none">
+                    </div>
                 </div>
             </div>
 
@@ -101,7 +150,7 @@
                 <thead class="bg-gray-50/50">
                     <tr>
                         <th class="px-6 py-3.5 text-left font-bold text-gray-500 uppercase tracking-wider">Foto & Nama Aset</th>
-                        <th class="px-6 py-3.5 text-left font-bold text-gray-500 uppercase tracking-wider">Kategori</th>
+                        <th class="px-6 py-3.5 text-left font-bold text-gray-500 uppercase tracking-wider">Kategori / Area</th>
                         <th class="px-6 py-3.5 text-left font-bold text-gray-500 uppercase tracking-wider">Status</th>
                         <th class="px-6 py-3.5 text-right font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
@@ -133,7 +182,12 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 font-medium text-gray-600">{{ $a->kategori->nama_kategori ?? '-' }}</td>
+                            <td class="px-6 py-4">
+                                <div class="font-medium text-gray-600">{{ $a->kategori->nama_kategori ?? '-' }}</div>
+                                <div class="text-[10px] font-bold text-blue-600 mt-0.5">
+                                    {{ $a->is_outdoor ? '☀️ Outdoor' : '🏢 Indoor' }}
+                                </div>
+                            </td>
                             <td class="px-6 py-4">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold border uppercase {{ $statusClasses }}">
                                     {{ $a->status_operasional }}
